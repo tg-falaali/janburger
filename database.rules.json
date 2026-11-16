@@ -1,0 +1,18 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "site": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+    "branches": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+    "menu": {
+      ".read": true,
+      ".write": "auth != null"
+    }
+  }
+}

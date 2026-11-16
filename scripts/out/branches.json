@@ -1,0 +1,382 @@
+{
+  "seed-branch-2": {
+    "order": 1,
+    "name": "Riffa",
+    "nameAr": "الرفاع",
+    "address": "",
+    "phone": "77999881",
+    "phone2": "77999882",
+    "mapUrl": "https://maps.app.goo.gl/7cGyXmHr7tiBTzZ98",
+    "active": true,
+    "hours": [
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      }
+    ]
+  },
+  "seed-branch-4": {
+    "order": 2,
+    "name": "Jid Ali",
+    "nameAr": "جدعلي",
+    "address": "",
+    "phone": "17780232",
+    "phone2": "17780383",
+    "mapUrl": "https://maps.app.goo.gl/p7CYvuf6AU1wV5WY9",
+    "active": true,
+    "hours": [
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      }
+    ]
+  },
+  "seed-branch-3": {
+    "order": 3,
+    "name": "Muharraq",
+    "nameAr": "المحرق",
+    "address": "Near Bahrain Club",
+    "phone": "17322292",
+    "phone2": "17331991",
+    "mapUrl": "https://maps.app.goo.gl/jKrKvLdB9Rgc8SbX7",
+    "active": true,
+    "hours": [
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      }
+    ],
+    "addressAr": "بالقرب من نادي البحرين"
+  },
+  "seed-branch-5": {
+    "order": 4,
+    "name": "Hamad Town",
+    "nameAr": "مدينة حمد",
+    "address": "",
+    "phone": "17414606",
+    "phone2": "17414811",
+    "mapUrl": "https://maps.app.goo.gl/F1e28yf8j8VpHQ3N9",
+    "active": true,
+    "hours": [
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      }
+    ]
+  },
+  "branch-diyar": {
+    "order": 5,
+    "name": "Diyar Al Muharraq",
+    "nameAr": "ديار المحرق",
+    "address": "Souq Al Baraha",
+    "phone": "77990013",
+    "phone2": "77990014",
+    "mapUrl": "https://maps.app.goo.gl/ASTLnYaJwLqN3XsA8",
+    "active": true,
+    "hours": [
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "00:30"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "00:30"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "00:30"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "00:30"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "00:30"
+      }
+    ],
+    "addressAr": "سوق البراحة"
+  },
+  "branch-jidhafs": {
+    "order": 6,
+    "name": "Jidhafs",
+    "nameAr": "جدحفص",
+    "address": "Gardenia Plaza",
+    "phone": "77900084",
+    "phone2": "77900085",
+    "mapUrl": "https://maps.app.goo.gl/8x5ick7gTTTpiZNY8",
+    "active": true,
+    "hours": [
+      {
+        "closed": false,
+        "open": "10:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "10:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "10:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "10:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "10:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "10:00",
+        "close": "01:00"
+      }
+    ],
+    "addressAr": "جاردينيا بلازا"
+  },
+  "seed-branch-6": {
+    "order": 7,
+    "name": "Adliya",
+    "nameAr": "العدلية",
+    "address": "Manama",
+    "phone": "17712505",
+    "phone2": "17712554",
+    "mapUrl": "https://maps.app.goo.gl/c7nTjH5VefDnCyQGA",
+    "active": false,
+    "hours": [
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      }
+    ],
+    "addressAr": "المنامة"
+  },
+  "seed-branch-1": {
+    "order": 8,
+    "name": "Gudaibiya",
+    "nameAr": "القضيبية",
+    "address": "",
+    "phone": "",
+    "phone2": "",
+    "mapUrl": "",
+    "active": false,
+    "hours": [
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      },
+      {
+        "closed": false,
+        "open": "16:00",
+        "close": "01:00"
+      }
+    ]
+  }
+}

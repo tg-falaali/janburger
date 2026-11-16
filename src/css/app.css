@@ -1,0 +1,944 @@
+/* Jan Burger - a plain outlined look: white page, thin dark lines, the logo's
+   red as the only colour. No fills, no shadows, no gradients. */
+
+:root {
+  --jb-red: #e31e24;
+  --jb-ink: #1c1c1c;
+  --jb-muted: #6b6b6b;
+  --jb-line: 2px solid var(--jb-ink);
+  --jb-radius: 14px;
+  --font-body: "Tajawal", "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #fff;
+  color: var(--jb-ink);
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* -------------------------------------------------------------------- hero */
+.hero { padding: 28px 0 0; text-align: center; }
+
+/* the shop sign: three panels, each a red outline with a keyline inside it */
+.sign {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 8px;
+}
+.sign-panel {
+  position: relative;
+  border: 2px solid var(--jb-red);
+  color: var(--jb-red);
+  background: #fff;
+  padding: 26px 22px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+.sign-panel::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--jb-red);
+  pointer-events: none;
+}
+.sign-panel--center, .sign-panel--ar { align-items: center; text-align: center; }
+.sign-panel--ar { direction: rtl; }
+
+.sign-font {
+  font-family: "Archivo Black", "Arial Black", Impact, sans-serif;
+  text-transform: uppercase;
+  line-height: 1.02;
+}
+.sign-font-ar { font-family: "Lalezar", "Tajawal", sans-serif; line-height: 1.15; }
+.sign-title { font-size: clamp(2.2rem, 6vw, 4.2rem); }
+.sign-sub { font-size: clamp(1.1rem, 2.9vw, 2rem); margin-top: 6px; }
+.sign-company { font-weight: 800; color: var(--jb-ink); font-size: clamp(0.85rem, 1.6vw, 1.1rem); margin-top: 12px; }
+.sign-branches {
+  font-weight: 700;
+  color: var(--jb-ink);
+  font-size: clamp(0.65rem, 1.15vw, 0.82rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.sign-title-ar { font-size: clamp(2.5rem, 5.8vw, 4rem); }
+.sign-sub-ar { font-size: clamp(1.4rem, 3.2vw, 2.3rem); }
+.sign-logo { width: 100%; max-width: 230px; height: auto; }
+.sign-phones {
+  margin-top: 8px;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--jb-ink);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.sign-phones a { color: var(--jb-ink); text-decoration: none; }
+.sign-phones a:hover { color: var(--jb-red); }
+
+/* the tube light under the sign, as a bare outline */
+.tube {
+  height: 9px;
+  margin-top: 10px;
+  border: var(--jb-line);
+  border-radius: 99px;
+  background: #fff6c9;
+  box-shadow: 0 0 14px 3px rgba(255, 205, 60, 0.75), 0 14px 46px 10px rgba(255, 205, 60, 0.35);
+  position: relative;
+  z-index: 1;
+}
+
+/* the glass front: an outlined frame split into panes */
+.shopfront {
+  margin-top: 10px;
+  border: var(--jb-line);
+  border-bottom: 0;
+  padding: 30px 14px 34px;
+  background: linear-gradient(var(--jb-ink), var(--jb-ink)) 25% 0 / 2px 100% no-repeat,
+    linear-gradient(var(--jb-ink), var(--jb-ink)) 50% 0 / 2px 100% no-repeat,
+    linear-gradient(var(--jb-ink), var(--jb-ink)) 75% 0 / 2px 100% no-repeat,
+    /* the warm light inside the shop, strongest under the tube */
+    radial-gradient(ellipse 75% 110% at 50% 0%, rgba(255, 205, 60, 0.6), rgba(255, 220, 120, 0.22) 60%, rgba(255, 235, 170, 0.08) 100%);
+}
+.shopfront .btn-line { background: #fff; }
+.shopfront .open-count { display: inline-block; background: #fff; padding: 2px 12px; border-radius: 99px; }
+
+/* the step up from the pavement */
+.step { height: 12px; border: var(--jb-line); margin: 0 -10px; }
+
+.hero-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--jb-ink);
+  background: transparent;
+  border: var(--jb-line);
+  border-radius: 99px;
+  padding: 9px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+}
+.btn-line:hover, .btn-line:focus-visible { color: var(--jb-red); border-color: var(--jb-red); }
+.btn-line--red { color: var(--jb-red); border-color: var(--jb-red); }
+.btn-line--red:hover, .btn-line--red:focus-visible { color: var(--jb-ink); border-color: var(--jb-ink); }
+
+.open-count { margin-top: 18px; font-weight: 700; color: var(--jb-muted); }
+.dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: 2px solid #1e9e45;
+  background: #1e9e45;
+  margin-right: 6px;
+}
+.dot--off { background: transparent; border-color: var(--jb-muted); }
+
+.ticker {
+  color: var(--jb-red);
+  font-weight: 800;
+  text-align: center;
+  padding: 10px 16px;
+  border-bottom: 2px solid var(--jb-red);
+}
+
+.demo-ribbon {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--jb-muted);
+  padding: 6px 12px;
+  border-bottom: 1px dashed var(--jb-muted);
+}
+
+/* ---------------------------------------------------------------- sections */
+.section { padding: 52px 0; }
+.section + .section { border-top: var(--jb-line); }
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.section-head h2 {
+  font-weight: 800;
+  font-size: clamp(1.5rem, 3.6vw, 2.1rem);
+  line-height: 1.15;
+  margin: 0;
+}
+.section-head .ar { font-weight: 800; font-size: clamp(1.4rem, 3.2vw, 1.9rem); color: var(--jb-red); }
+
+.empty-note { color: var(--jb-muted); font-size: 1.05rem; padding: 12px 0; }
+
+/* -------------------------------------------------------------------- menu */
+.cat-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.cat-chip {
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 6px 16px;
+  border: 2px solid #cfcfcf;
+  border-radius: 99px;
+  background: transparent;
+  color: var(--jb-ink);
+  cursor: pointer;
+}
+.cat-chip:hover { border-color: var(--jb-ink); }
+.cat-chip.is-on { border-color: var(--jb-red); color: var(--jb-red); }
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.board { border: var(--jb-line); border-radius: var(--jb-radius); padding-bottom: 14px; }
+.board-head {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--jb-red);
+  padding: 12px 18px;
+  border-bottom: var(--jb-line);
+}
+.board-item { padding: 12px 18px 0; }
+.board-row { display: flex; align-items: center; gap: 12px; width: 100%; }
+button.board-row {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+button.board-row:hover .board-name { color: var(--jb-red); }
+button.board-row:focus-visible { outline: 2px solid var(--jb-red); outline-offset: 4px; border-radius: 6px; }
+.board-main { flex: 1; min-width: 0; }
+button.board-row.is-on .board-name { color: var(--jb-red); }
+
+/* the menu on the left, the picked item taken apart on the right */
+.menu-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 22px; align-items: start; }
+.menu-layout .board-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+/* no frame and no heading: just the item, centred, and the controls under it */
+.stage { position: sticky; top: 12px; }
+.stage-hint { color: var(--jb-muted); padding: 30px 6px; text-align: center; }
+.q-card.stage-sheet { border-radius: var(--jb-radius) var(--jb-radius) 0 0; max-height: 88vh; padding: 8px 16px 18px; }
+.q-card.stage-sheet .stage { position: static; }
+.stage-close { position: absolute; top: 8px; right: 8px; z-index: 2; }
+
+/* build-your-own: what is in it, and what can be added */
+.build { margin-top: 6px; }
+.build-list { list-style: none; margin: 0 auto; padding: 0; max-width: 300px; }
+.build-row { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+.build-btn {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--jb-ink);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--jb-ink);
+  padding: 0;
+  cursor: pointer;
+}
+.build-btn:hover, .build-btn:focus-visible { border-color: var(--jb-red); color: var(--jb-red); }
+.build-btn--none { border-color: transparent; cursor: default; }
+.build-name { font-weight: 700; font-size: 0.92rem; }
+.build-ar { margin-left: auto; color: var(--jb-muted); font-size: 0.88rem; }
+.build-add { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 12px; }
+.build-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 3px 10px 3px 6px;
+  border: 2px solid #cfcfcf;
+  border-radius: 99px;
+  background: #fff;
+  color: var(--jb-ink);
+  cursor: pointer;
+}
+.build-chip:hover:not(:disabled), .build-chip:focus-visible { border-color: var(--jb-red); color: var(--jb-red); }
+.build-chip:disabled { opacity: 0.45; cursor: default; }
+.build-foot { min-height: 26px; margin-top: 10px; text-align: center; font-size: 0.85rem; color: var(--jb-muted); }
+.build-reset {
+  font: inherit;
+  font-weight: 700;
+  color: var(--jb-red);
+  background: none;
+  border: 0;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+.build-reset:hover { text-decoration: underline; }
+@media (max-width: 899px) {
+  .menu-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* the stack of layers. --tuck is how far a layer sits into the one above
+   when the stack is closed, in the drawing's own units; --u is one such unit. */
+.bstack { --u: 1.0333px; display: flex; flex-direction: column; align-items: flex-start; }
+.bl {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: calc(var(--tuck, -4) * var(--u));
+  transition: margin-top 0.5s cubic-bezier(0.34, 1.45, 0.64, 1);
+  transition-delay: calc(var(--i) * 45ms);
+}
+.bstack .bl:first-child { margin-top: 0; }
+.bl-art { width: 124px; flex: none; display: block; overflow: visible; }
+.bstack.is-open .bl { margin-top: var(--open-m, 12px); }
+.bstack.is-open .bl:first-child { margin-top: 0; }
+.bl-label {
+  font-weight: 700;
+  font-size: 0.92rem;
+  min-width: 0;
+  line-height: 1.2;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.3s, transform 0.3s;
+  transition-delay: calc(var(--i) * 45ms + 150ms);
+}
+.bl-label::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  border-top: 2px solid var(--jb-ink);
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.bl-ar { display: block; color: var(--jb-muted); font-weight: 500; margin-left: 26px; }
+.bstack.is-open .bl-label { opacity: 1; transform: none; }
+.bstack.is-mini { --u: 0.3667px; flex: none; width: 44px; }
+.bstack.is-mini .bl { transition: none; }
+.bstack.is-mini .bl-art { width: 44px; filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .bl, .bl-label { transition: none; }
+}
+.board-line { display: flex; align-items: baseline; gap: 8px; }
+.board-name { font-weight: 700; font-size: 1.05rem; }
+.board-dots { flex: 1; border-bottom: 2px dotted #bdbdbd; transform: translateY(-4px); min-width: 16px; }
+.board-price { font-weight: 800; color: var(--jb-red); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.board-sub { display: flex; justify-content: space-between; gap: 12px; font-size: 0.9rem; color: var(--jb-muted); }
+.board-item.is-out .board-name,
+.board-item.is-out .board-price { color: var(--jb-muted); text-decoration: line-through; }
+.sold-out { color: var(--jb-red); font-weight: 700; font-size: 0.8rem; }
+
+/* ---------------------------------------------------------------- branches */
+.branch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.branch { border: var(--jb-line); border-radius: var(--jb-radius); display: flex; flex-direction: column; }
+.branch-head {
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  border-bottom: var(--jb-line);
+}
+.branch-head .en { font-weight: 800; font-size: 1.1rem; }
+.branch-head .ar { font-weight: 800; font-size: 1.1rem; color: var(--jb-red); }
+.branch-body { padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 8px; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 2px 10px;
+  border-radius: 99px;
+  border: 2px solid #1e9e45;
+  color: #17662f;
+}
+.pill--off { border-color: #bdbdbd; color: var(--jb-muted); }
+.branch-today { font-weight: 700; }
+.branch-addr { color: var(--jb-muted); font-size: 0.95rem; }
+.branch-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 6px; }
+.week { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.week td { padding: 3px 0; }
+.week td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.week tr.is-today td { font-weight: 800; color: var(--jb-red); }
+
+/* ------------------------------------------------------------------ footer */
+.foot { border-top: var(--jb-line); padding: 44px 0 24px; }
+.foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 28px; }
+.foot h3 { font-weight: 800; font-size: 1.05rem; margin: 0 0 8px; line-height: 1.3; }
+.foot a { color: var(--jb-ink); }
+.foot a.foot-phone { font-weight: 800; font-size: 1.4rem; display: block; text-decoration: none; color: var(--jb-red); }
+.foot a.foot-phone:hover { text-decoration: underline; }
+.foot-bottom {
+  margin-top: 30px;
+  padding-top: 14px;
+  border-top: 1px solid #d9d9d9;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--jb-muted);
+}
+
+/* ------------------------------------------------------------ login + dash */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+.login-card { width: 100%; max-width: 400px; border: var(--jb-line); border-radius: var(--jb-radius); padding: 26px 24px; }
+.login-logo { display: block; width: 190px; height: auto; margin: 0 auto 4px; }
+.login-note { text-align: center; font-weight: 700; color: var(--jb-muted); margin-bottom: 18px; }
+
+.dash { min-height: 100vh; }
+.dash-bar { border-bottom: var(--jb-line); }
+.dash-logo { height: 40px; width: auto; display: block; }
+.dash-panel { border: var(--jb-line); border-radius: var(--jb-radius); overflow: hidden; }
+.dash-row { border-bottom: 1px solid #e3e3e3; }
+.dash-row:last-child { border-bottom: 0; }
+.q-card.dlg-card { border: var(--jb-line); border-radius: var(--jb-radius); box-shadow: none; }
+.dlg-head { font-weight: 800; font-size: 1.15rem; border-bottom: var(--jb-line); }
+
+/* dashboard forms: plain gaps, so nothing fights Quasar's negative gutters */
+.form-stack { display: flex; flex-direction: column; gap: 16px; }
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 760px) {
+  .hero { padding-top: 14px; }
+  .sign { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .sign-panel { min-height: 0; padding: 20px 14px; }
+  .sign-panel--main { grid-column: 1 / -1; text-align: center; align-items: center; }
+  .sign-phones { flex-direction: column; gap: 0; }
+  .sign-phones .q-icon { display: none; }
+  .shopfront { padding: 20px 8px 24px; }
+  .step { margin: 0 -6px; }
+  .section { padding: 38px 0; }
+  .btn-line { font-size: 0.88rem; padding: 8px 16px; }
+}
+
+/* in the side panel the picked item is drawn larger */
+.stage .bstack { --u: 1.3333px; }
+.stage .bl-art { width: 160px; }
+.stage .bl { gap: 10px; }
+
+/* the 3D view: one canvas, the item in the middle of it */
+.b3d { position: relative; }
+.b3d-canvas { display: block; margin: 0 auto; cursor: grab; touch-action: pan-y; }
+.b3d-canvas:active { cursor: grabbing; }
+.b3d-fallback { align-items: center; }
+
+/* the little shop on a branch card */
+.shop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 16px 10px;
+  border-bottom: var(--jb-line);
+  color: var(--jb-muted);
+  text-decoration: none;
+}
+.shop-art { width: 100%; max-width: 210px; height: auto; display: block; overflow: visible; transition: transform 0.2s; }
+.shop-sign { font-family: "Archivo Black", "Arial Black", sans-serif; font-size: 13px; fill: var(--jb-red); letter-spacing: 0.5px; }
+.shop-caption { font-weight: 700; font-size: 0.85rem; margin-top: 2px; }
+.shop.is-link { cursor: pointer; }
+.shop.is-link .shop-caption { color: var(--jb-ink); }
+.shop.is-link:hover .shop-art, .shop.is-link:focus-visible .shop-art { transform: translateY(-3px) scale(1.03); }
+.shop.is-link:hover .shop-caption, .shop.is-link:focus-visible .shop-caption { color: var(--jb-red); }
+.shop.is-link:focus-visible { outline: 2px solid var(--jb-red); outline-offset: -4px; }
+
+.shop-pin { transform-box: fill-box; transform-origin: 50% 100%; animation: shop-pin 1.5s ease-in-out infinite; }
+.shop.is-link:hover .shop-pin { animation-duration: 0.7s; }
+@keyframes shop-pin {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+.shop-smoke circle { transform-box: fill-box; transform-origin: center; opacity: 0; animation: shop-smoke 3.3s ease-out infinite; }
+.shop-smoke circle:nth-child(2) { animation-delay: 1.1s; }
+.shop-smoke circle:nth-child(3) { animation-delay: 2.2s; }
+@keyframes shop-smoke {
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  15% { opacity: 0.75; }
+  100% { transform: translate(9px, -30px) scale(2); opacity: 0; }
+}
+
+/* the tube light and what it throws: steady, with the odd flicker */
+.shop-glow, .shop-tube { animation: shop-flicker 6s linear infinite; }
+@keyframes shop-flicker {
+  0%, 91%, 94%, 97%, 100% { opacity: 1; }
+  92.5%, 95.5% { opacity: 0.45; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shop-pin, .shop-smoke circle, .shop-glow, .shop-tube, .shop-art { animation: none; transition: none; }
+  .shop-smoke circle { opacity: 0.5; }
+}
+
+/* photograph layers: each is its own cut-out, stacked in front of the one below */
+.bl { position: relative; }
+.bl-photo {
+  display: block;
+  flex: none;
+  width: calc(var(--w) * var(--u));
+  height: auto;
+  user-select: none;
+}
+.bstack.is-photo { align-items: center; }
+.bstack.is-mini .bl-photo { filter: none; }
+.bstack.is-mini.is-photo { align-items: center; }
+/* the big view beside the menu */
+.stage .bstack.is-photo { --u: 1.25px; padding: 6px 0 8px; width: 100%; }
+.stage .bstack.is-photo .bl { transition-duration: 0.55s; }
+
+/* ---- the big burger, alive ------------------------------------------------
+   1. built:   each layer drops onto the one below, bottom first
+   2. burst:   a beat later the stack swells and the layers spring apart
+   3. afloat:  while apart, every layer bobs gently, each to its own time
+   Press the burger and it claps shut; press again and it bursts open. */
+.stage-burger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.stage-burger.is-static { cursor: default; }
+.stage-burger:focus-visible { outline: 2px solid var(--jb-red); outline-offset: 4px; border-radius: 12px; }
+.stage-burger:not(.is-static):active .bstack { transform: scale(0.97); }
+.stage-burger .bstack { transition: transform 0.15s ease-out; }
+
+/* 1. built */
+.bstack:not(.is-mini) .bl {
+  animation: bl-drop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+  animation-delay: var(--drop, 0ms);
+}
+@keyframes bl-drop {
+  0% { opacity: 0; transform: translateY(-46px) rotate(-5deg) scale(0.92); }
+  55% { opacity: 1; }
+  100% { opacity: 1; transform: none; }
+}
+
+/* 2. burst: the spring is in the easing - it overshoots, then settles */
+.stage .bstack.is-photo .bl {
+  transition: margin-top 0.62s cubic-bezier(0.3, 1.7, 0.45, 1);
+  transition-delay: calc(var(--i) * 38ms);
+}
+.stage .bstack.is-photo.is-open { animation: stack-burst 0.55s ease-out; }
+@keyframes stack-burst {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.07, 0.95); }
+  60% { transform: scale(0.98, 1.03); }
+  100% { transform: scale(1); }
+}
+
+/* 3. afloat */
+.stage .bstack.is-photo.is-open .bl-photo {
+  animation: bl-float 3.4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.47s);
+}
+@keyframes bl-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(0.9deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bstack .bl, .stage .bstack.is-photo.is-open, .stage .bstack.is-photo.is-open .bl-photo { animation: none; }
+  .stage .bstack.is-photo .bl { transition: none; }
+}
+
+/* closed, it is not a still picture either: the whole burger rises and
+   settles, with the slightest lean, as if it were being held out to you */
+.stage .bstack.is-photo:not(.is-open) { animation: stack-idle 2.8s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes stack-idle {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  25% { transform: translateY(-5px) rotate(-1.2deg) scale(1.015); }
+  50% { transform: translateY(0) rotate(0deg) scale(1, 0.985); }
+  75% { transform: translateY(-5px) rotate(1.2deg) scale(1.015); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage .bstack.is-photo:not(.is-open) { animation: none; }
+}
+
+/* something shown whole (fries in their carton, a drink) has the panel to
+   itself, so it is drawn bigger than a single layer of a burger would be */
+.stage .bstack.is-photo .bl:only-child { --u: 2.1px; }
+
+/* ===========================================================================
+   Scrolling. Things arrive as they are scrolled to (v-reveal), a thin line
+   along the top says how far down the page you are, and the menu's category
+   chips stay with you while you are in the menu.
+   ======================================================================== */
+.reveal { opacity: 0; }
+.reveal.is-in {
+  opacity: 1;
+  /* fills backwards only: once it has landed, the element's own transform
+     (a hover lift, say) is free again */
+  animation: reveal-up 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+.reveal[data-reveal="left"].is-in { animation-name: reveal-left; }
+.reveal[data-reveal="right"].is-in { animation-name: reveal-right; }
+.reveal[data-reveal="zoom"].is-in { animation-name: reveal-zoom; }
+@keyframes reveal-up { from { opacity: 0; transform: translateY(34px); } }
+@keyframes reveal-left { from { opacity: 0; transform: translateX(-42px); } }
+@keyframes reveal-right { from { opacity: 0; transform: translateX(42px); } }
+@keyframes reveal-zoom { from { opacity: 0; transform: scale(0.9); } }
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.is-in { opacity: 1; animation: none; }
+}
+
+.scroll-bar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 4px;
+  z-index: 3000;
+  background: var(--jb-red);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--p, 0));
+  pointer-events: none;
+}
+
+/* a section heading draws its own rule as it arrives */
+.section-head { position: relative; padding-bottom: 12px; }
+.section-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background: var(--jb-ink);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s;
+}
+.section-head.is-in::after, .section-head:not(.reveal)::after { transform: scaleX(1); }
+
+/* ---- the menu: photo cards, in groups ------------------------------------ */
+.cat-row {
+  position: sticky;
+  top: 4px;
+  z-index: 20;
+  margin: 0 -8px 18px;
+  padding: 10px 8px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 99px;
+}
+.cat-chip { transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s; }
+.cat-chip:active { transform: scale(0.95); }
+.cat-chip.is-on { background: var(--jb-red); border-color: var(--jb-red); color: #fff; }
+.menu-layout .stage { top: 70px; }
+
+.mgroups { display: flex; flex-direction: column; gap: 30px; min-width: 0; }
+.mgroup-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 14px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.mgroup-name { color: var(--jb-red); }
+.mgroup-rule { flex: 1; border-top: 2px dotted #c9c9c9; }
+.mgroup-count {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--jb-ink);
+  border-radius: 99px;
+  font-size: 0.85rem;
+}
+
+.mcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.mcard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  column-gap: 12px;
+  align-items: center;
+  min-height: 118px;
+  padding: 12px 14px 12px 10px;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: #fff;
+  border: var(--jb-line);
+  border-radius: var(--jb-radius);
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s, border-color 0.2s;
+}
+button.mcard { cursor: pointer; }
+/* a wash of the shop's yellow light, in from the side, on the card in hand */
+.mcard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 0% 50%, rgba(255, 205, 60, 0.45), transparent 62%);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+button.mcard:hover, button.mcard:focus-visible { transform: translateY(-4px); box-shadow: 0 6px 0 var(--jb-ink); outline: none; }
+button.mcard:hover::before, button.mcard:focus-visible::before, .mcard.is-on::before { opacity: 1; }
+button.mcard:active { transform: translateY(-1px); box-shadow: 0 2px 0 var(--jb-ink); }
+.mcard.is-on { border-color: var(--jb-red); box-shadow: 0 6px 0 var(--jb-red); transform: translateY(-4px); }
+
+.mcard-art {
+  grid-row: 1 / -1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 92px;
+  color: #c9c9c9;
+  transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.mcard-art .bstack.is-mini { --u: 0.62px; width: auto; }
+button.mcard:hover .mcard-art, .mcard.is-on .mcard-art { transform: scale(1.12) rotate(-4deg); }
+
+.mcard-body { position: relative; display: flex; flex-direction: column; min-width: 0; align-self: start; padding-top: 2px; }
+.mcard-name { font-weight: 800; font-size: 1.04rem; line-height: 1.2; }
+.mcard.is-on .mcard-name { color: var(--jb-red); }
+.mcard-ar { font-weight: 700; color: var(--jb-muted); font-size: 0.95rem; text-align: left; }
+.mcard-desc { color: var(--jb-muted); font-size: 0.85rem; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.mcard-price {
+  position: relative;
+  justify-self: start;
+  align-self: end;
+  font-weight: 800;
+  font-size: 1.12rem;
+  color: var(--jb-red);
+  font-variant-numeric: tabular-nums;
+}
+.mcard-bd { font-size: 0.72rem; margin-right: 3px; letter-spacing: 0.04em; }
+.mcard.is-out { border-style: dashed; }
+.mcard.is-out .mcard-art { filter: grayscale(1); opacity: 0.55; }
+.mcard.is-out .mcard-name, .mcard.is-out .mcard-price { color: var(--jb-muted); text-decoration: line-through; }
+
+.branch { transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s; }
+.branch:hover { transform: translateY(-4px); box-shadow: 0 6px 0 var(--jb-ink); }
+
+@media (max-width: 760px) {
+  .mcards { grid-template-columns: 1fr; }
+  .cat-row { flex-wrap: nowrap; overflow-x: auto; border-radius: 0; margin: 0 -16px 14px; padding: 10px 16px; scrollbar-width: none; }
+  .cat-row::-webkit-scrollbar { display: none; }
+  .cat-chip { flex: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mcard, .mcard-art, .branch, .section-head::after { transition: none; }
+}
+
+/* ===========================================================================
+   Cozy. The same shop, at the hour the lamps come on: warm cream paper
+   instead of white, espresso lines instead of black, rounder corners, soft
+   warm shadows instead of hard ones, and a rounder hand for the headings.
+   Everything below only re-colours and softens what is defined above.
+   ======================================================================== */
+:root {
+  --jb-bg: #fff6e6;
+  --jb-bg-deep: #ffecd2;
+  --jb-card: #fffdf8;
+  --jb-ink: #3b2a20;
+  --jb-muted: #8a7363;
+  --jb-line: 2px solid var(--jb-ink);
+  --jb-radius: 22px;
+  --jb-soft: 0 14px 30px -18px rgba(110, 60, 20, 0.55);
+  --jb-soft-up: 0 22px 36px -18px rgba(110, 60, 20, 0.6);
+  --font-cozy: "Baloo Bhaijaan 2", "Tajawal", "Segoe UI", sans-serif;
+}
+
+body {
+  color: var(--jb-ink);
+  background:
+    radial-gradient(ellipse 60% 40% at 8% 0%, rgba(255, 214, 140, 0.55), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 96% 12%, rgba(255, 196, 160, 0.4), transparent 70%),
+    var(--jb-bg);
+  background-attachment: fixed;
+}
+
+/* the rounder hand: headings, names, prices */
+.section-head h2, .section-head .ar, .mgroup-head, .mcard-name, .mcard-price,
+.branch-head .en, .branch-head .ar, .foot h3, .foot a.foot-phone, .btn-line, .cat-chip {
+  font-family: var(--font-cozy);
+}
+.section-head h2 { letter-spacing: -0.01em; }
+
+/* the logo is drawn on white: let the paper show through it instead */
+.sign-logo, .login-logo, .dash-logo { mix-blend-mode: multiply; }
+
+/* paper, not white */
+.sign-panel, .mcard, .branch, .board, .login-card, .dash-panel, .build-btn, .build-chip,
+.shopfront .btn-line, .shopfront .open-count, .q-card.stage-sheet { background: var(--jb-card); }
+.cat-row { background: rgba(255, 246, 230, 0.9); }
+.demo-ribbon { background: transparent; }
+
+/* softer shapes */
+.btn-line, .cat-chip, .build-chip { border-width: 2px; }
+.cat-chip { border-color: #e3cfb6; background: var(--jb-card); }
+.cat-chip:hover { border-color: var(--jb-ink); }
+.mgroup-rule { border-top-color: #e0c8a8; }
+.mgroup-count { background: var(--jb-card); }
+.board-dots { border-bottom-color: #e0c8a8; }
+.dash-row { border-bottom-color: #f0e0c8; }
+.foot-bottom { border-top-color: rgba(255, 246, 230, 0.25); }
+
+/* warm, soft shadows: things rest on the page, they do not stamp it */
+.mcard, .branch, .sign-panel, .login-card, .dash-panel { box-shadow: var(--jb-soft); }
+button.mcard:hover, button.mcard:focus-visible, .branch:hover { box-shadow: var(--jb-soft-up); transform: translateY(-5px); }
+button.mcard:active { box-shadow: var(--jb-soft); transform: translateY(-1px); }
+.mcard.is-on { box-shadow: 0 0 0 3px rgba(227, 30, 36, 0.16), var(--jb-soft-up); transform: translateY(-5px); }
+.mcard::before { background: radial-gradient(circle at 0% 50%, rgba(255, 196, 80, 0.5), transparent 64%); }
+
+/* the sections: cream, then a deeper cream with a soft rounded top, then cocoa */
+.section + .section { border-top: 0; }
+#branches {
+  background: var(--jb-bg-deep);
+  border-radius: 44px 44px 0 0;
+  box-shadow: 0 -18px 40px -30px rgba(110, 60, 20, 0.5);
+}
+.section-head::after { height: 3px; border-radius: 3px; background: var(--jb-ink); opacity: 0.85; }
+
+.foot {
+  border-top: 0;
+  background: var(--jb-ink);
+  color: #f7e6cf;
+  border-radius: 44px 44px 0 0;
+  margin-top: -44px;
+  padding-top: 70px;
+  position: relative;
+}
+#branches { padding-bottom: 96px; }
+.foot h3 { color: #fff6e6; }
+.foot a { color: #f7e6cf; }
+.foot a.foot-phone { color: #ffc94d; }
+.foot-bottom { color: rgba(247, 230, 207, 0.7); }
+.foot .q-btn { color: #f7e6cf !important; }
+
+/* the hero keeps its lamp, a little warmer and wider */
+.hero { padding-top: 34px; }
+.shopfront { border-radius: 0; }
+
+/* ---- scrolling back up --------------------------------------------------
+   What comes in at the top of the window, on the way back up, drops into
+   place - the mirror of rising in from below. */
+.reveal.is-in[data-from="above"]:not([data-reveal]) { animation-name: reveal-down; }
+.reveal.is-in[data-from="above"][data-reveal="left"] { animation-name: reveal-right; }
+@keyframes reveal-down { from { opacity: 0; transform: translateY(-34px); } }
+
+/* and a way straight back to the top, once you are some way down */
+.to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2500;
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--jb-line);
+  border-radius: 50%;
+  background: var(--jb-card);
+  color: var(--jb-ink);
+  box-shadow: var(--jb-soft);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(18px) scale(0.85);
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s cubic-bezier(0.3, 1.5, 0.5, 1), color 0.2s, border-color 0.2s;
+}
+.to-top.is-shown { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover, .to-top:focus-visible { color: var(--jb-red); border-color: var(--jb-red); transform: translateY(-3px); outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  .to-top { transition: none; }
+}
+
+/* closed: just a slow, small rise and fall - no lean, no squash */
+.stage .bstack.is-photo:not(.is-open) { animation: stack-idle-simple 3.6s ease-in-out infinite; }
+@keyframes stack-idle-simple {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* the link to the shop's own full menu, under the menu's heading */
+.menu-pdf { margin: -6px 0 18px; background: var(--jb-card); }
+
+/* ===========================================================================
+   Arabic reads right to left. The page is told so (<html dir="rtl">), which
+   turns every row and grid round by itself; what is below is only the handful
+   of things that were pinned to one side by name.
+   ======================================================================== */
+.lang-btn { font-family: var(--font-cozy); }
+
+/* the shop sign is a picture of a sign: it stays as it is painted, in both languages */
+[dir="rtl"] .sign { direction: ltr; }
+
+[dir="rtl"] .mcard { text-align: right; padding: 12px 10px 12px 14px; }
+[dir="rtl"] .mcard-ar { text-align: right; }
+[dir="rtl"] .mcard-price { justify-self: start; }
+[dir="rtl"] .mcard::before { background: radial-gradient(circle at 100% 50%, rgba(255, 196, 80, 0.5), transparent 64%); }
+[dir="rtl"] button.mcard:hover .mcard-art, [dir="rtl"] .mcard.is-on .mcard-art { transform: scale(1.12) rotate(4deg); }
+
+[dir="rtl"] .section-head::after { transform-origin: 100% 50%; }
+[dir="rtl"] .scroll-bar { transform-origin: 100% 50%; }
+[dir="rtl"] .to-top { right: auto; left: 18px; }
+[dir="rtl"] .stage-close { right: auto; left: 8px; }
+
+[dir="rtl"] .week td:last-child { text-align: left; }
+[dir="rtl"] .build-ar { margin-left: 0; margin-right: auto; }
+[dir="rtl"] .bl-ar { margin-left: 0; margin-right: 26px; }
+[dir="rtl"] .dot { margin-right: 0; margin-left: 6px; }
+[dir="rtl"] .q-mr-xs { margin-right: 0; margin-left: 4px; }
+
+/* headings come in from the side they are read from */
+[dir="rtl"] .reveal[data-reveal="left"].is-in { animation-name: reveal-right; }
+[dir="rtl"] .reveal.is-in[data-from="above"][data-reveal="left"] { animation-name: reveal-left; }
+
+/* phone numbers and prices are always read left to right */
+.foot-phone, .branch-actions .q-btn, .sign-phones { direction: ltr; unicode-bidi: isolate; }
+[dir="rtl"] .foot a.foot-phone { text-align: right; }
+
+/* Arabic sits a little larger and looser to read as easily as the Latin */
+[dir="rtl"] body { line-height: 1.7; }
+[dir="rtl"] .mcard-name, [dir="rtl"] .branch-head .en { font-size: 1.12rem; }

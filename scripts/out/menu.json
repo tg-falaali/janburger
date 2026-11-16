@@ -1,0 +1,281 @@
+{
+  "item-01": {
+    "order": 1,
+    "category": "Meals",
+    "name": "Jan Meal",
+    "nameAr": "جان وجبة",
+    "price": 2.2,
+    "description": "Beef patty, fries & drink",
+    "available": true,
+    "descriptionAr": "قطعة لحم، بطاطس ومشروب",
+    "layers": [
+      "bun-top",
+      "lettuce",
+      "tomato",
+      "cheese",
+      "patty",
+      "bun-bottom"
+    ]
+  },
+  "item-02": {
+    "order": 2,
+    "category": "Meals",
+    "name": "Chi. Jan Meal",
+    "nameAr": "ج جان وجبة",
+    "price": 2.2,
+    "description": "Chicken patty, fries & drink",
+    "available": true,
+    "descriptionAr": "قطعة دجاج، بطاطس ومشروب",
+    "layers": [
+      "bun-top",
+      "lettuce",
+      "tomato",
+      "cheese",
+      "chicken",
+      "bun-bottom"
+    ]
+  },
+  "item-03": {
+    "order": 3,
+    "category": "Meals",
+    "name": "Big Jan Meal",
+    "nameAr": "بق جان وجبة",
+    "price": 2.8,
+    "description": "2x beef patty, fries & drink",
+    "available": true,
+    "descriptionAr": "قطعتا لحم، بطاطس ومشروب",
+    "layers": [
+      "bun-top",
+      "lettuce",
+      "tomato",
+      "cheese",
+      "patty",
+      "cheese",
+      "patty",
+      "bun-bottom"
+    ]
+  },
+  "item-04": {
+    "order": 4,
+    "category": "Meals",
+    "name": "Big Chi. Jan Meal",
+    "nameAr": "بق ج جان وجبة",
+    "price": 2.8,
+    "description": "2x chicken patty, fries & drink",
+    "available": true,
+    "descriptionAr": "قطعتا دجاج، بطاطس ومشروب",
+    "layers": [
+      "bun-top",
+      "lettuce",
+      "tomato",
+      "cheese",
+      "chicken",
+      "cheese",
+      "chicken",
+      "bun-bottom"
+    ]
+  },
+  "item-05": {
+    "order": 5,
+    "category": "Meals",
+    "name": "Mix Jan Meal",
+    "nameAr": "مكس جان وجبة",
+    "price": 2.8,
+    "description": "Chicken & beef patty, fries & drink",
+    "available": true,
+    "descriptionAr": "قطعة دجاج وقطعة لحم، بطاطس ومشروب",
+    "layers": [
+      "bun-top",
+      "lettuce",
+      "tomato",
+      "cheese",
+      "chicken",
+      "cheese",
+      "patty",
+      "bun-bottom"
+    ]
+  },
+  "item-06": {
+    "order": 6,
+    "category": "Meals",
+    "name": "Classic Club Meal",
+    "nameAr": "وجبة كلوب كلاسيكية",
+    "price": 2,
+    "description": "",
+    "available": true
+  },
+  "item-07": {
+    "order": 7,
+    "category": "Meals",
+    "name": "Jan Club Meal",
+    "nameAr": "جان كلوب وجبة",
+    "price": 2.6,
+    "description": "",
+    "available": true
+  },
+  "item-08": {
+    "order": 8,
+    "category": "Sides",
+    "name": "Janapeño Cheese Bites",
+    "nameAr": "قطع الجبن بالهالبينو",
+    "price": 1.1,
+    "description": "New",
+    "available": true,
+    "descriptionAr": "جديد"
+  },
+  "item-09": {
+    "order": 9,
+    "category": "Sides",
+    "name": "French Fries - Regular",
+    "nameAr": "بطاطس مقلية - عادي",
+    "price": 0.7,
+    "description": "",
+    "available": true,
+    "layers": [
+      "fries-boxed"
+    ]
+  },
+  "item-10": {
+    "order": 10,
+    "category": "Sides",
+    "name": "French Fries - Large",
+    "nameAr": "بطاطس مقلية - كبير",
+    "price": 1.3,
+    "description": "",
+    "available": true,
+    "layers": [
+      "fries-boxed"
+    ]
+  },
+  "item-11": {
+    "order": 11,
+    "category": "Sides",
+    "name": "Garlic Fries - Regular",
+    "nameAr": "بطاطس بالثوم - عادي",
+    "price": 1.1,
+    "description": "",
+    "available": true,
+    "layers": [
+      "fries-boxed"
+    ]
+  },
+  "item-12": {
+    "order": 12,
+    "category": "Sides",
+    "name": "Garlic Fries - Large",
+    "nameAr": "بطاطس بالثوم - كبير",
+    "price": 1.7,
+    "description": "",
+    "available": true,
+    "layers": [
+      "fries-boxed"
+    ]
+  },
+  "item-13": {
+    "order": 13,
+    "category": "Sides",
+    "name": "Extra Cheese",
+    "nameAr": "جبن إضافي",
+    "price": 0.15,
+    "description": "",
+    "available": true,
+    "layers": [
+      "cheese"
+    ]
+  },
+  "item-14": {
+    "order": 14,
+    "category": "Mojitos",
+    "name": "Blue Oasis",
+    "nameAr": "الواحة الزرقاء",
+    "price": 1.2,
+    "description": "",
+    "available": true
+  },
+  "item-15": {
+    "order": 15,
+    "category": "Mojitos",
+    "name": "Passion Mirage",
+    "nameAr": "سراب الشغف",
+    "price": 1.2,
+    "description": "",
+    "available": true
+  },
+  "item-16": {
+    "order": 16,
+    "category": "Mojitos",
+    "name": "Strawberry Sahara",
+    "nameAr": "انتعاش الفراولة",
+    "price": 1.2,
+    "description": "",
+    "available": true
+  },
+  "item-17": {
+    "order": 17,
+    "category": "Mojitos",
+    "name": "Guilt-Free Mango Medina",
+    "nameAr": "مدينة المانجو خالي من الذنب",
+    "price": 1.5,
+    "description": "Sugar-free mojito",
+    "available": true,
+    "descriptionAr": "موهيتو خالي من السكر"
+  },
+  "item-18": {
+    "order": 18,
+    "category": "Ice Teas",
+    "name": "Peach Kasbah",
+    "nameAr": "قصبة الخوخ",
+    "price": 1.2,
+    "description": "",
+    "available": true
+  },
+  "item-19": {
+    "order": 19,
+    "category": "Ice Teas",
+    "name": "Lemon Tea",
+    "nameAr": "شاي الليمون",
+    "price": 1.2,
+    "description": "",
+    "available": true
+  },
+  "item-20": {
+    "order": 20,
+    "category": "Ice Teas",
+    "name": "Razzle Tea",
+    "nameAr": "شاي رازل",
+    "price": 1.2,
+    "description": "",
+    "available": true
+  },
+  "item-21": {
+    "order": 21,
+    "category": "Soft Drinks",
+    "name": "Water",
+    "nameAr": "ماء",
+    "price": 0.2,
+    "description": "",
+    "available": true,
+    "layers": [
+      "water-bottle"
+    ]
+  },
+  "item-22": {
+    "order": 22,
+    "category": "Soft Drinks",
+    "name": "Juice",
+    "nameAr": "عصير",
+    "price": 0.3,
+    "description": "",
+    "available": true
+  },
+  "item-23": {
+    "order": 23,
+    "category": "Soft Drinks",
+    "name": "Kinza",
+    "nameAr": "كينزا",
+    "price": 0.4,
+    "description": "Cola, Orange, Blackcurrant, Citrus, Lemon, Zero Lime",
+    "available": true,
+    "descriptionAr": "كولا، برتقال، كشمش أسود، حمضيات، ليمون، لايم زيرو"
+  }
+}

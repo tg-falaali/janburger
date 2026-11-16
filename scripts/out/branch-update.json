@@ -1,0 +1,230 @@
+{
+  "seed-branch-2/mapUrl": "https://maps.app.goo.gl/7cGyXmHr7tiBTzZ98",
+  "seed-branch-2/hours": [
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    }
+  ],
+  "seed-branch-4/mapUrl": "https://maps.app.goo.gl/p7CYvuf6AU1wV5WY9",
+  "seed-branch-4/hours": [
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    }
+  ],
+  "seed-branch-3/mapUrl": "https://maps.app.goo.gl/jKrKvLdB9Rgc8SbX7",
+  "seed-branch-3/hours": [
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    }
+  ],
+  "seed-branch-5/mapUrl": "https://maps.app.goo.gl/F1e28yf8j8VpHQ3N9",
+  "seed-branch-5/hours": [
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    }
+  ],
+  "branch-diyar/mapUrl": "https://maps.app.goo.gl/ASTLnYaJwLqN3XsA8",
+  "branch-diyar/hours": [
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "00:30"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "00:30"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "00:30"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "00:30"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "00:30"
+    }
+  ],
+  "branch-jidhafs/mapUrl": "https://maps.app.goo.gl/8x5ick7gTTTpiZNY8",
+  "branch-jidhafs/hours": [
+    {
+      "closed": false,
+      "open": "10:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "10:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "10:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "10:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "10:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "16:00",
+      "close": "01:00"
+    },
+    {
+      "closed": false,
+      "open": "10:00",
+      "close": "01:00"
+    }
+  ]
+}
