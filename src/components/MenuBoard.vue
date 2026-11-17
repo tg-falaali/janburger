@@ -33,8 +33,6 @@
         <section v-for="group in shown" :key="group.name" class="mgroup">
           <h3 v-reveal:left class="mgroup-head">
             <span class="mgroup-name">{{ category(group.name) }}</span>
-            <span class="mgroup-rule" aria-hidden="true"></span>
-            <span class="mgroup-count">{{ group.items.length }}</span>
           </h3>
 
           <div class="mcards">
@@ -56,7 +54,6 @@
               </span>
               <span class="mcard-body">
                 <span class="mcard-name">{{ pick(item.name, item.nameAr) }}</span>
-                <span v-if="other(item.name, item.nameAr)" class="mcard-ar" dir="auto">{{ other(item.name, item.nameAr) }}</span>
                 <span v-if="item.available === false" class="sold-out">{{ t("menu.unavailable") }}</span>
                 <span v-else-if="pick(item.description, item.descriptionAr)" class="mcard-desc">{{ pick(item.description, item.descriptionAr) }}</span>
               </span>
@@ -71,16 +68,24 @@
       <!-- right: the picked item, taken apart (wide screens) -->
       <aside v-if="!narrow" class="stage">
         <template v-if="selected">
-          <button
-            v-if="photos" type="button" class="stage-burger" :class="{ 'is-static': !canPlay }"
-            :aria-label="exploded ? t('menu.putBack') : t('menu.takeApart')" @click="toggle"
+          <!-- press the burger to put it together or take it apart. Not a
+               <button>: the minus beside each layer is one, and a button
+               cannot hold another. -->
+          <div
+            v-if="photos" class="stage-burger" :class="{ 'is-static': !canPlay }"
+            :role="canPlay ? 'button' : undefined" :tabindex="canPlay ? 0 : undefined"
+            :aria-label="canPlay ? (exploded ? t('menu.putBack') : t('menu.takeApart')) : undefined"
+            @click="toggle" @keydown.enter.self.prevent="toggle" @keydown.space.self.prevent="toggle"
           >
-            <BurgerStack :key="selected.id" :layers="build" :open="exploded && canPlay" :labels="false" />
-          </button>
+            <BurgerStack
+              :key="selected.id" :layers="build" :open="exploded && canPlay" :labels="false"
+              :gap-at="drag ? drag.index : -1" :removable="removable" @remove="removeAt"
+            />
+          </div>
           <Burger3D v-else :layers="build" :open="exploded && canPlay" />
           <BuildControls
             v-if="canPlay" :layers="build" :extras="extras" :changed="changed" :full="build.length >= MAX_LAYERS"
-            @remove="removeAt" @add="add" @reset="reset"
+            @remove="removeAt" @add="add" @grab="grab" @reset="reset"
           />
         </template>
         <div v-else class="stage-hint">{{ t("menu.pick") }}</div>
@@ -92,20 +97,39 @@
       <q-card v-if="selected" class="stage-sheet scroll">
         <q-btn flat round dense icon="close" :aria-label="t('menu.close')" class="stage-close" v-close-popup />
         <div class="stage">
-          <button
-            v-if="photos" type="button" class="stage-burger" :class="{ 'is-static': !canPlay }"
-            :aria-label="exploded ? t('menu.putBack') : t('menu.takeApart')" @click="toggle"
+          <!-- press the burger to put it together or take it apart. Not a
+               <button>: the minus beside each layer is one, and a button
+               cannot hold another. -->
+          <div
+            v-if="photos" class="stage-burger" :class="{ 'is-static': !canPlay }"
+            :role="canPlay ? 'button' : undefined" :tabindex="canPlay ? 0 : undefined"
+            :aria-label="canPlay ? (exploded ? t('menu.putBack') : t('menu.takeApart')) : undefined"
+            @click="toggle" @keydown.enter.self.prevent="toggle" @keydown.space.self.prevent="toggle"
           >
-            <BurgerStack :key="selected.id" :layers="build" :open="exploded && canPlay" :labels="false" />
-          </button>
+            <BurgerStack
+              :key="selected.id" :layers="build" :open="exploded && canPlay" :labels="false"
+              :gap-at="drag ? drag.index : -1" :removable="removable" @remove="removeAt"
+            />
+          </div>
           <Burger3D v-else :layers="build" :open="exploded && canPlay" />
           <BuildControls
             v-if="canPlay" :layers="build" :extras="extras" :changed="changed" :full="build.length >= MAX_LAYERS"
-            @remove="removeAt" @add="add" @reset="reset"
+            @remove="removeAt" @add="add" @grab="grab" @reset="reset"
           />
         </div>
       </q-card>
     </q-dialog>
+
+    <!-- the ingredient in hand, following the finger or the mouse -->
+    <Teleport to="body">
+      <div
+        v-if="drag" class="drag-ghost" :class="{ 'is-over': drag.index >= 0 }"
+        :style="{ left: drag.x + 'px', top: drag.y + 'px' }" aria-hidden="true"
+      >
+        <img v-if="drag.file" :src="'layers/' + drag.file" alt="" draggable="false" />
+        <span v-else>{{ drag.label }}</span>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -125,7 +149,7 @@ const { t } = useI18n();
 const { pick, other, category } = useLocale();
 
 const priceOnly = (price) => Number(price || 0).toFixed(3);
-import { resolveLayers, extrasFor, addLayer, hasPhotos, MAX_LAYERS } from "src/utils/burgerLayers";
+import { LAYERS, resolveLayers, extrasFor, addLayer, hasPhotos, MAX_LAYERS } from "src/utils/burgerLayers";
 
 const props = defineProps({
   items: { type: Array, default: () => [] },
@@ -165,11 +189,11 @@ const selected = computed(
   () => props.items.find((item) => item.id === selectedId.value && hasLayers(item)) || null
 );
 
+// A newly picked item is shown WHOLE - closed, as it is served. It only comes
+// apart when the customer presses it, or starts dragging an ingredient in.
 function explodeSoon() {
   clearTimeout(timer);
   exploded.value = false;
-  // long enough for the layers to finish dropping into place first
-  timer = setTimeout(() => (exploded.value = true), 520 + original.value.length * 70);
 }
 
 // The build-your-own game: `build` starts as the item's own layers and the
@@ -183,8 +207,24 @@ const changed = computed(() => build.value.join() !== original.value.join());
 // photographs when every layer has one; the 3D view is the fallback
 const photos = computed(() => hasPhotos(build.value));
 
+// What may be taken out. Never the bun or the carton. And never the meat the
+// item is made with: a Jan Meal keeps its beef patty, a Big Jan Meal both of
+// them. Meat that was ADDED can come out again - so a patty shows its minus
+// only while there are more of them than the item started with.
+const MEATS = ["patty", "chicken", "sausage"];
+const count = (keys, key) => keys.filter((k) => k === key).length;
+const removable = computed(() =>
+  build.value.map((key) => {
+    if (LAYERS[key]?.fixed) return false;
+    if (MEATS.includes(key)) return count(build.value, key) > count(original.value, key);
+    return true;
+  })
+);
+
 const reset = () => (build.value = [...original.value]);
-const removeAt = (index) => build.value.splice(index, 1);
+const removeAt = (index) => {
+  if (removable.value[index]) build.value.splice(index, 1);
+};
 // pressing the burger itself puts it together or takes it apart
 const toggle = () => {
   if (!canPlay.value) return; // a drink or fries: nothing to take apart
@@ -194,6 +234,91 @@ const toggle = () => {
 const add = (key) => {
   if (build.value.length < MAX_LAYERS) build.value = addLayer(build.value, key);
 };
+
+// ---- carrying an ingredient to the burger --------------------------------
+// An ingredient is picked up from the tray and dropped INTO the burger, at the
+// height it is let go: between whichever two layers the hand is over. A gap
+// opens there while it hovers, so it is plain where it will land. Dropped
+// anywhere else, nothing happens. This is done with pointer events rather
+// than the browser's own drag-and-drop, which does not exist on a phone.
+const drag = ref(null); // { key, file, label, x, y, index } while something is in hand
+let held = null; // the press that may become a drag
+const DRAG_AFTER_PX = 6; // less movement than this is a tap, not a drag
+
+function grab(key, event) {
+  if (build.value.length >= MAX_LAYERS) return;
+  if (event.button != null && event.button !== 0) return; // left button / finger only
+  const layer = resolveLayers([key])[0];
+  held = {
+    key,
+    file: layer?.photo?.file || "",
+    label: pick(layer?.label, layer?.labelAr),
+    x: event.clientX,
+    y: event.clientY,
+    moved: false,
+  };
+  window.addEventListener("pointermove", carry, { passive: false });
+  window.addEventListener("pointerup", drop);
+  window.addEventListener("pointercancel", letGo);
+}
+
+function carry(event) {
+  if (!held) return;
+  if (!held.moved) {
+    if (Math.hypot(event.clientX - held.x, event.clientY - held.y) < DRAG_AFTER_PX) return;
+    held.moved = true;
+    clearTimeout(timer);
+    exploded.value = true; // open it up, so there is somewhere to put the thing
+  }
+  event.preventDefault();
+  drag.value = {
+    key: held.key, file: held.file, label: held.label,
+    x: event.clientX, y: event.clientY,
+    index: slotAt(event.clientX, event.clientY),
+  };
+}
+
+/** Which place in the stack the point is over: the layer it would go ABOVE, or -1. */
+function slotAt(x, y) {
+  const stage = [...document.querySelectorAll(".stage-burger")].find((el) => el.getClientRects().length);
+  if (!stage) return -1;
+  const box = stage.getBoundingClientRect();
+  if (x < box.left || x > box.right || y < box.top - 30 || y > box.bottom + 30) return -1;
+
+  const layers = [...stage.querySelectorAll(".bl")];
+  let index = layers.length;
+  for (let i = 0; i < layers.length; i++) {
+    const r = layers[i].getBoundingClientRect();
+    if (y < r.top + r.height / 2) {
+      index = i;
+      break;
+    }
+  }
+  // never above the top bun or under the base: those stay where they are
+  const keys = build.value;
+  const min = LAYERS[keys[0]]?.fixed ? 1 : 0;
+  const max = LAYERS[keys[keys.length - 1]]?.fixed ? keys.length - 1 : keys.length;
+  return Math.min(max, Math.max(min, index));
+}
+
+function drop() {
+  if (held && !held.moved) {
+    add(held.key); // a tap: it goes in at the usual place, on top of the base
+  } else if (drag.value && drag.value.index >= 0 && build.value.length < MAX_LAYERS) {
+    const next = [...build.value];
+    next.splice(drag.value.index, 0, drag.value.key);
+    build.value = next;
+  }
+  letGo();
+}
+
+function letGo() {
+  held = null;
+  drag.value = null;
+  window.removeEventListener("pointermove", carry);
+  window.removeEventListener("pointerup", drop);
+  window.removeEventListener("pointercancel", letGo);
+}
 
 // (re)start from the item's own layers whenever a different item is shown,
 // or staff change that item's layers while it is on screen
@@ -220,5 +345,8 @@ watch(
   { immediate: true }
 );
 
-onBeforeUnmount(() => clearTimeout(timer));
+onBeforeUnmount(() => {
+  clearTimeout(timer);
+  letGo();
+});
 </script>

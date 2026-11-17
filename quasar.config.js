@@ -59,5 +59,26 @@ export default defineConfig(() => {
     },
 
     animations: [],
+
+    // The installable app ("Add to Home Screen"). The service worker keeps the
+    // site working offline and takes a new version as soon as one is deployed,
+    // rather than waiting for every open tab to be closed first.
+    pwa: {
+      workboxMode: "GenerateSW",
+      injectPwaMetaTags: true,
+      swFilename: "sw.js",
+      manifestFilename: "manifest.json",
+      useCredentialsForManifestTag: false,
+      extendGenerateSWOptions(cfg) {
+        cfg.skipWaiting = true;
+        cfg.clientsClaim = true;
+        cfg.cleanupOutdatedCaches = true;
+        // the 3D view is a big, rarely used file: fetched when wanted, not up front
+        cfg.maximumFileSizeToCacheInBytes = 3 * 1024 * 1024;
+        // live data (the menu, the branches) always comes from the database,
+        // never from an old copy
+        cfg.navigateFallbackDenylist = [/^\/__\//];
+      },
+    },
   };
 });

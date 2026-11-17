@@ -4,11 +4,17 @@
        there is one, and its drawing when there is not. -->
   <div
     class="bstack"
-    :class="{ 'is-open': open, 'is-mini': mini, 'is-photo': allPhotos, 'no-labels': !labels }"
+    :class="{
+      'is-open': open, 'is-mini': mini, 'is-photo': allPhotos, 'no-labels': !labels,
+      'gap-end': gapAt === shown.length && shown.length > 0,
+    }"
     role="img"
     :aria-label="mini ? 'Item' : 'Layers: ' + shown.map((l) => l.label).join(', ')"
   >
-    <div v-for="(layer, i) in shown" :key="layer.id" class="bl" :style="layerStyle(layer, i)">
+    <div
+      v-for="(layer, i) in shown" :key="layer.id" class="bl" :class="{ 'is-gap': gapAt === i }"
+      :style="layerStyle(layer, i)"
+    >
       <img
         v-if="layer.photo" class="bl-photo" :src="'layers/' + layer.photo.file" alt=""
         :width="layer.photo.w" :height="layer.photo.h" decoding="async" draggable="false"
@@ -16,6 +22,15 @@
       <svg v-else class="bl-art" :viewBox="'0 0 120 ' + layer.h" aria-hidden="true">
         <g v-html="layer.svg"></g>
       </svg>
+      <!-- beside the layer itself: take THIS one out -->
+      <button
+        v-if="removable[i]" type="button" class="bl-remove"
+        :aria-label="t('menu.remove', { name: pick(layer.label, layer.labelAr) })"
+        @click.stop="$emit('remove', i)" @pointerdown.stop
+      >
+        <q-icon name="remove" size="15px" />
+        <span class="bl-remove-name">{{ pick(layer.label, layer.labelAr) }}</span>
+      </button>
       <span v-if="!mini && labels" class="bl-label">
         {{ layer.label }} <span class="bl-ar" lang="ar">{{ layer.labelAr }}</span>
       </span>
@@ -26,13 +41,25 @@
 <script setup>
 import { computed, onMounted } from "vue";
 import { resolveLayers } from "src/utils/burgerLayers";
+import { useI18n } from "vue-i18n";
+import { useLocale } from "src/i18n";
 
 const props = defineProps({
   layers: { type: Array, default: () => [] },
   open: { type: Boolean, default: false },
   mini: { type: Boolean, default: false },
   labels: { type: Boolean, default: true },
+  // while an ingredient is being dragged over the stack: the place it would
+  // go in - a gap opens above this layer (or after the last one). -1 = none.
+  gapAt: { type: Number, default: -1 },
+  // one true/false per layer: may this one be taken out? (none, by default)
+  removable: { type: Array, default: () => [] },
 });
+
+defineEmits(["remove"]);
+
+const { t } = useI18n();
+const { pick } = useLocale();
 
 // How a layer arrives. The first time the stack is shown it is BUILT: the
 // bottom lands first and the rest drop onto it one after another. A layer

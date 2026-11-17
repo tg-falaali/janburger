@@ -2,30 +2,20 @@
   <!-- The build-your-own controls: what is in it (minus to take out) and what
        can go in (plus to add). -->
   <div class="build">
-    <ul class="build-list" :aria-label="t('menu.inIt')">
-      <!-- Only what can be taken out is listed. The bun (or the carton) is
-           always there, so naming it would be a row with nothing to press. -->
-      <template v-for="(layer, i) in shown" :key="i + layer.key">
-        <li v-if="!layer.fixed" class="build-row">
-          <button
-            class="build-btn" type="button"
-            :aria-label="t('menu.remove', { name: pick(layer.label, layer.labelAr) })" @click="$emit('remove', i)"
-          >
-            <q-icon name="remove" size="16px" />
-          </button>
-          <span class="build-name">{{ pick(layer.label, layer.labelAr) }}</span>
-          <span class="build-ar" dir="auto">{{ other(layer.label, layer.labelAr) }}</span>
-        </li>
-      </template>
-    </ul>
-
     <div v-if="extras.length" class="build-add">
       <button
         v-for="key in extras" :key="key" class="build-chip" type="button" :disabled="full"
-        :aria-label="t('menu.add', { name: pick(LAYERS[key].label, LAYERS[key].labelAr) })" @click="$emit('add', key)"
+        :aria-label="t('menu.add', { name: pick(LAYERS[key].label, LAYERS[key].labelAr) })"
+        @pointerdown="$emit('grab', key, $event)"
+        @keydown.enter.prevent="$emit('add', key)" @keydown.space.prevent="$emit('add', key)"
       >
-        <q-icon name="add" size="15px" />{{ pick(LAYERS[key].label, LAYERS[key].labelAr) }}
+        <img v-if="thumb(key)" class="build-thumb" :src="'layers/' + thumb(key)" alt="" draggable="false" />
+        <q-icon v-else name="drag_indicator" size="15px" />
+        {{ pick(LAYERS[key].label, LAYERS[key].labelAr) }}
       </button>
+    </div>
+    <div v-if="extras.length" class="build-hint">
+      <q-icon name="pan_tool_alt" size="15px" /> {{ t("menu.dragHint") }}
     </div>
 
     <div class="build-foot">
@@ -53,7 +43,10 @@ const props = defineProps({
   full: { type: Boolean, default: false },
 });
 
-defineEmits(["remove", "add", "reset"]);
+defineEmits(["remove", "add", "grab", "reset"]);
+
+/** The ingredient's own photograph, small, as the thing to pick up. */
+const thumb = (key) => resolveLayers([key])[0]?.photo?.file || "";
 
 const shown = computed(() => resolveLayers(props.layers));
 </script>

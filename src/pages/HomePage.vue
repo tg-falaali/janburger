@@ -33,7 +33,6 @@
             {{ openLine }}
           </div>
         </div>
-        <div class="step" aria-hidden="true"></div>
       </div>
     </header>
 
@@ -50,11 +49,10 @@
       <div class="wrap">
         <div v-reveal:left class="section-head">
           <h2>{{ t("menu.title") }}</h2>
-          <span class="ar">{{ t("menu.title", {}, { locale: otherLocale }) }}</span>
+          <a v-if="link(info.menuUrl)" class="head-link" :href="link(info.menuUrl)" target="_blank" rel="noopener">
+            {{ t("menu.pdf") }} <q-icon name="north_east" size="15px" />
+          </a>
         </div>
-        <a v-if="link(info.menuUrl)" class="btn-line menu-pdf" :href="link(info.menuUrl)" target="_blank" rel="noopener">
-          <q-icon name="menu_book" size="18px" class="q-mr-xs" />{{ t("menu.pdf") }}
-        </a>
         <q-spinner v-if="state.loading" color="primary" size="36px" />
         <MenuBoard v-else :items="state.menu" :categories="categories" />
       </div>
@@ -65,7 +63,6 @@
       <div class="wrap">
         <div v-reveal:left class="section-head">
           <h2>{{ t("branches.title") }}</h2>
-          <span class="ar">{{ t("branches.title", {}, { locale: otherLocale }) }}</span>
         </div>
         <q-spinner v-if="state.loading" color="primary" size="36px" />
         <div v-else-if="!branches.length" class="empty-note">

@@ -2,19 +2,16 @@
   <article class="branch">
     <header class="branch-head">
       <span class="en">{{ pick(branch.name, branch.nameAr) }}</span>
-      <span class="ar" dir="auto">{{ other(branch.name, branch.nameAr) }}</span>
+      <span class="pill" :class="{ 'pill--off': !open }">
+        <span class="dot" :class="{ 'dot--off': !open }"></span>
+        {{ open ? t("branches.openNow") : t("branches.closedNow") }}
+      </span>
     </header>
 
     <!-- press the little shop and this branch opens in Google Maps -->
     <MiniShop :name="pick(branch.name, branch.nameAr)" :href="mapLink" />
 
     <div class="branch-body">
-      <div>
-        <span class="pill" :class="{ 'pill--off': !open }">
-          <span class="dot" :class="{ 'dot--off': !open }"></span>
-          {{ open ? t("branches.openNow") : t("branches.closedNow") }}
-        </span>
-      </div>
 
       <div class="branch-today">
         <q-icon name="schedule" size="18px" class="q-mr-xs" />

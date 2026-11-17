@@ -942,3 +942,290 @@ button.mcard:active { box-shadow: var(--jb-soft); transform: translateY(-1px); }
 /* Arabic sits a little larger and looser to read as easily as the Latin */
 [dir="rtl"] body { line-height: 1.7; }
 [dir="rtl"] .mcard-name, [dir="rtl"] .branch-head .en { font-size: 1.12rem; }
+
+/* ---- drag an ingredient into the burger ---------------------------------- */
+.build-chip { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; padding: 3px 12px 3px 5px; gap: 6px; }
+.build-chip:active { cursor: grabbing; }
+.build-thumb { width: 34px; height: 22px; object-fit: contain; pointer-events: none; }
+.build-hint { margin-top: 10px; text-align: center; font-size: 0.82rem; color: var(--jb-muted); }
+
+/* the ingredient in hand */
+.drag-ghost {
+  position: fixed;
+  z-index: 9000;
+  width: 150px;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-6deg) scale(0.92);
+  transition: transform 0.15s ease-out, opacity 0.15s;
+  opacity: 0.9;
+  filter: drop-shadow(0 12px 14px rgba(90, 50, 20, 0.35));
+}
+.drag-ghost.is-over { transform: translate(-50%, -50%) rotate(0deg) scale(1.05); opacity: 1; }
+.drag-ghost img { display: block; width: 100%; height: auto; }
+.drag-ghost span {
+  display: inline-block;
+  padding: 6px 14px;
+  border: var(--jb-line);
+  border-radius: 99px;
+  background: var(--jb-card);
+  font-weight: 800;
+  white-space: nowrap;
+}
+body:has(.drag-ghost) { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+
+/* where it will land: the layers part, and a dashed line marks the place */
+.stage .bstack .bl.is-gap { margin-top: calc(var(--open-m, 12px) + 52px); }
+.stage .bstack .bl.is-gap::before,
+.stage .bstack.gap-end::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  width: 170px;
+  transform: translateX(-50%);
+  border-top: 3px dashed var(--jb-red);
+  border-radius: 3px;
+  animation: gap-pulse 0.9s ease-in-out infinite;
+}
+.stage .bstack.gap-end { position: relative; padding-bottom: 44px; }
+.stage .bstack.gap-end::after { top: auto; bottom: 18px; }
+@keyframes gap-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drag-ghost { transition: none; }
+  .stage .bstack .bl.is-gap::before, .stage .bstack.gap-end::after { animation: none; }
+}
+
+/* the framework pins the page to left-to-right; Arabic has to ask for the other way by name */
+html[dir="rtl"], html[dir="rtl"] body { direction: rtl; }
+html[dir="rtl"] #q-app { direction: rtl; }
+
+/* ---- the minus beside each layer ----------------------------------------- */
+.bl-remove {
+  position: absolute;
+  inset-inline-start: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%) scale(0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 118px;
+  padding: 2px 9px 2px 3px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--jb-ink);
+  background: var(--jb-card);
+  border: 2px solid var(--jb-ink);
+  border-radius: 99px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s cubic-bezier(0.3, 1.5, 0.5, 1), color 0.15s, border-color 0.15s;
+  transition-delay: calc(var(--i) * 38ms + 200ms);
+}
+[dir="rtl"] .bl-remove { padding: 2px 3px 2px 9px; }
+.bl-remove .q-icon { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--jb-ink); color: var(--jb-card); }
+.bl-remove-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bstack.is-open .bl-remove { opacity: 1; pointer-events: auto; transform: translateY(-50%) scale(1); }
+.bl-remove:hover, .bl-remove:focus-visible { color: var(--jb-red); border-color: var(--jb-red); outline: none; }
+.bl-remove:hover .q-icon, .bl-remove:focus-visible .q-icon { background: var(--jb-red); }
+.bstack.is-mini .bl-remove { display: none; }
+/* the burger sits a little to the side of centre, to leave the minus its room */
+.stage .bstack.is-photo { padding-inline-end: 96px; }
+.stage .bstack.is-photo .bl:only-child { margin-inline-start: 96px; }
+@media (prefers-reduced-motion: reduce) {
+  .bl-remove { transition: none; }
+}
+
+/* ===========================================================================
+   Calm. One idea per thing, and far fewer lines.
+   The page had grown a border round everything, two languages on every label
+   and a flourish on every hover. This pass takes them away: hairlines instead
+   of outlines, space instead of rules, red kept for the one thing in each
+   place that matters (the price, the chosen item, the sign).
+   It re-states, last, whatever above it needs quietening.
+   ======================================================================== */
+:root {
+  --jb-hair: 1px solid rgba(59, 42, 32, 0.12);
+  --jb-line: 1px solid rgba(59, 42, 32, 0.12);
+  --jb-radius: 18px;
+  --jb-soft: 0 1px 2px rgba(59, 42, 32, 0.05), 0 8px 24px -16px rgba(59, 42, 32, 0.28);
+  --jb-soft-up: 0 2px 4px rgba(59, 42, 32, 0.06), 0 18px 34px -18px rgba(59, 42, 32, 0.38);
+}
+
+.wrap { max-width: 1120px; padding: 0 20px; }
+.section { padding: 72px 0; }
+
+/* ---- hero: the sign, the lamp, and a single row of links ------------------ */
+.sign-panel::after { display: none; }            /* one outline, not two */
+.sign-panel { border-width: 2px; box-shadow: none; }
+.shopfront { border: 0; background: none; padding: 26px 0 8px; margin-top: 6px; }
+.tube { border: 0; height: 6px; background: #ffe9a8; box-shadow: 0 0 18px 4px rgba(255, 205, 60, 0.7), 0 22px 60px 14px rgba(255, 205, 60, 0.28); }
+.hero { padding-bottom: 12px; }
+.hero-nav { gap: 4px; }
+.hero-nav .btn-line {
+  border: 0;
+  background: none;
+  padding: 8px 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--jb-ink);
+  border-radius: 99px;
+  transition: background 0.15s, color 0.15s;
+}
+.shopfront .btn-line { background: none; }
+.hero-nav .btn-line:hover, .hero-nav .btn-line:focus-visible { background: rgba(59, 42, 32, 0.06); color: var(--jb-ink); }
+.hero-nav .btn-line--red { color: var(--jb-red); }
+.hero-nav .lang-btn { border: var(--jb-hair); background: var(--jb-card); margin-inline-start: 8px; }
+.shopfront .open-count { background: none; padding: 0; margin-top: 10px; font-weight: 500; font-size: 0.92rem; }
+.ticker { border: 0; background: rgba(227, 30, 36, 0.06); font-weight: 700; font-size: 0.95rem; padding: 9px 16px; }
+
+/* ---- headings: big, plain, no rule under them ----------------------------- */
+.section-head { padding-bottom: 0; margin-bottom: 28px; align-items: center; }
+.section-head::after { display: none; }
+.section-head h2 { font-size: clamp(1.7rem, 3.6vw, 2.3rem); }
+.head-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--jb-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.head-link:hover, .head-link:focus-visible { color: var(--jb-red); }
+
+/* ---- menu ----------------------------------------------------------------- */
+.cat-row { background: none; backdrop-filter: none; margin: 0 0 26px; padding: 8px 0; border-radius: 0; gap: 6px; }
+.cat-row { background: linear-gradient(var(--jb-bg) 70%, transparent); }
+.cat-chip { border: var(--jb-hair); background: transparent; padding: 7px 16px; font-weight: 700; font-size: 0.92rem; color: var(--jb-muted); }
+.cat-chip:hover { border-color: rgba(59, 42, 32, 0.3); color: var(--jb-ink); }
+.cat-chip.is-on { background: var(--jb-ink); border-color: var(--jb-ink); color: #fff; }
+
+.mgroups { gap: 40px; }
+.mgroup-head { margin-bottom: 14px; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.mgroup-name { color: var(--jb-muted); }
+[dir="rtl"] .mgroup-head { letter-spacing: 0; font-size: 1rem; }
+
+.mcards { gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.mcard {
+  border: var(--jb-hair);
+  box-shadow: none;
+  background: var(--jb-card);
+  min-height: 104px;
+  grid-template-columns: 76px minmax(0, 1fr) auto;
+  grid-template-rows: auto;
+  padding: 12px 16px 12px 10px;
+  column-gap: 14px;
+}
+[dir="rtl"] .mcard { padding: 12px 10px 12px 16px; }
+.mcard::before { display: none; }                 /* no wash */
+button.mcard:hover, button.mcard:focus-visible { transform: translateY(-2px); box-shadow: var(--jb-soft-up); border-color: rgba(59, 42, 32, 0.18); }
+button.mcard:active { transform: none; box-shadow: none; }
+.mcard.is-on { border-color: var(--jb-red); box-shadow: 0 0 0 1px var(--jb-red); transform: none; }
+.mcard-art { grid-row: auto; height: 80px; }
+button.mcard:hover .mcard-art, .mcard.is-on .mcard-art,
+[dir="rtl"] button.mcard:hover .mcard-art, [dir="rtl"] .mcard.is-on .mcard-art { transform: none; }   /* no tilt */
+.mcard-art .bstack.is-mini { --u: 0.56px; }
+.mcard-body { align-self: center; padding-top: 0; gap: 2px; }
+.mcard-name { font-size: 1.02rem; }
+.mcard.is-on .mcard-name { color: var(--jb-ink); }
+.mcard-desc { font-size: 0.86rem; -webkit-line-clamp: 1; }
+.mcard-price { align-self: center; justify-self: end; font-size: 1.02rem; color: var(--jb-ink); white-space: nowrap; }
+.mcard.is-on .mcard-price { color: var(--jb-red); }
+.mcard-bd { color: var(--jb-muted); font-weight: 600; }
+
+/* ---- the item beside the menu -------------------------------------------- */
+.bl-remove {
+  max-width: none;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  justify-content: center;
+  border: var(--jb-hair);
+  background: var(--jb-card);
+  box-shadow: var(--jb-soft);
+}
+[dir="rtl"] .bl-remove { padding: 0; }
+.bl-remove-name { display: none; }                /* the layer it sits beside says which */
+.bl-remove .q-icon { background: none; color: var(--jb-muted); width: auto; height: auto; }
+.bl-remove:hover, .bl-remove:focus-visible { border-color: var(--jb-red); }
+.bl-remove:hover .q-icon, .bl-remove:focus-visible .q-icon { background: none; color: var(--jb-red); }
+.stage .bstack.is-photo { padding-inline-end: 0; }
+.stage .bstack.is-photo .bl:only-child { margin-inline-start: 0; }
+
+.build { margin-top: 14px; }
+.build-add { gap: 6px; }
+.build-chip { border: var(--jb-hair); background: var(--jb-card); font-size: 0.8rem; font-weight: 600; color: var(--jb-ink); padding: 3px 12px 3px 5px; }
+.build-chip:hover:not(:disabled), .build-chip:focus-visible { border-color: rgba(59, 42, 32, 0.35); color: var(--jb-ink); box-shadow: var(--jb-soft); }
+.build-thumb { width: 30px; height: 20px; }
+.build-hint { font-size: 0.78rem; margin-top: 12px; }
+.build-hint .q-icon { display: none; }
+.build-foot { min-height: 0; margin-top: 8px; }
+.stage-hint { font-size: 0.95rem; }
+
+/* ---- branches ------------------------------------------------------------- */
+#branches { box-shadow: none; }
+.branch-grid { gap: 14px; }
+.branch { border: var(--jb-hair); box-shadow: none; background: var(--jb-card); overflow: hidden; }
+.branch:hover { transform: translateY(-2px); box-shadow: var(--jb-soft-up); }
+.branch-head { border-bottom: 0; padding: 16px 18px 0; align-items: center; }
+.branch-head .en { font-size: 1.12rem; color: var(--jb-ink); }
+.shop { border-bottom: 0; padding: 6px 16px 2px; }
+.shop-art { max-width: 150px; }
+.shop-caption { font-size: 0.8rem; font-weight: 600; color: var(--jb-muted); }
+.shop.is-link .shop-caption { color: var(--jb-muted); }
+.branch-body { padding: 8px 18px 16px; gap: 6px; }
+.branch-today { font-weight: 600; font-size: 0.95rem; }
+.branch-today .q-icon, .branch-addr .q-icon { color: var(--jb-muted); }
+.pill { border: 0; background: rgba(30, 158, 69, 0.12); color: #177a39; font-size: 0.76rem; padding: 3px 10px; }
+.pill--off { background: rgba(59, 42, 32, 0.07); color: var(--jb-muted); }
+.dot { width: 7px; height: 7px; border-width: 0; }
+.dot--off { background: #b9aa9c; }
+.branch .q-expansion-item .q-item { min-height: 30px; padding: 0; font-size: 0.88rem; color: var(--jb-muted); }
+.branch-actions { gap: 6px; padding-top: 8px; }
+.branch-actions .q-btn { font-size: 0.86rem; min-height: 32px; padding: 0 12px; color: var(--jb-ink) !important; }
+.branch-actions .q-btn::before { border: var(--jb-hair); }
+.branch-actions .q-btn .q-icon { font-size: 1rem; color: var(--jb-red); }
+
+/* ---- the small things ------------------------------------------------------ */
+.scroll-bar { height: 3px; }
+.to-top { border: var(--jb-hair); width: 44px; height: 44px; }
+.demo-ribbon { border-bottom: var(--jb-hair); }
+.login-card, .dash-panel { border: var(--jb-hair); box-shadow: var(--jb-soft); }
+.dash-bar { border-bottom: var(--jb-hair); }
+
+/* arriving: a short rise, quickly - enough to notice, not enough to wait for */
+.reveal.is-in { animation-duration: 0.45s; }
+@keyframes reveal-up { from { opacity: 0; transform: translateY(14px); } }
+@keyframes reveal-down { from { opacity: 0; transform: translateY(-14px); } }
+@keyframes reveal-left { from { opacity: 0; transform: translateX(-16px); } }
+@keyframes reveal-right { from { opacity: 0; transform: translateX(16px); } }
+
+@media (max-width: 760px) {
+  .section { padding: 48px 0; }
+  .wrap { padding: 0 16px; }
+  .cat-row { margin: 0 -16px 18px; padding: 8px 16px; }
+  .hero-nav .btn-line { font-size: 0.95rem; padding: 7px 11px; }
+  .mcard { grid-template-columns: 68px minmax(0, 1fr) auto; }
+}
+
+/* the category chips scroll with the page: a strip that follows you needs a band behind it, and that band was one more thing on screen */
+.cat-row { position: static; background: none; }
+.menu-layout .stage { top: 16px; }
+
+/* the burger on a menu card, drawn larger */
+.mcard { grid-template-columns: 100px minmax(0, 1fr) auto; min-height: 120px; }
+.mcard-art { height: 104px; }
+.mcard-art .bstack.is-mini { --u: 0.74px; }
+@media (max-width: 760px) {
+  .mcard { grid-template-columns: 88px minmax(0, 1fr) auto; }
+  .mcard-art .bstack.is-mini { --u: 0.66px; }
+}
+/* a tall item (two patties) is taller: the card grows to hold it rather than cutting it off */
+.mcard-art { height: auto; min-height: 96px; padding: 4px 0; }

@@ -32,6 +32,7 @@ export const messages = {
       add: "Add {name}",
       full: "That's as tall as it gets!",
       reset: "Back to the original",
+      dragHint: "Drag onto the burger to add",
       close: "Close",
     },
 
@@ -101,6 +102,7 @@ export const messages = {
       add: "إضافة {name}",
       full: "هذا أقصى ارتفاع!",
       reset: "العودة إلى الأصل",
+      dragHint: "اسحب إلى البرجر للإضافة",
       close: "إغلاق",
     },
 
