@@ -1229,3 +1229,321 @@ button.mcard:hover .mcard-art, .mcard.is-on .mcard-art,
 }
 /* a tall item (two patties) is taller: the card grows to hold it rather than cutting it off */
 .mcard-art { height: auto; min-height: 96px; padding: 4px 0; }
+
+/* ===========================================================================
+   The phone view: a pane of frosted glass in the middle of the screen.
+   ======================================================================== */
+.q-dialog:has(.stage-sheet) .q-dialog__backdrop {
+  background: rgba(59, 42, 32, 0.28);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.q-card.stage-sheet {
+  width: min(92vw, 420px);
+  max-height: 86vh;
+  padding: 18px 16px 18px;
+  border-radius: 28px;
+  background: rgba(255, 250, 240, 0.72);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 30px 70px -20px rgba(59, 42, 32, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.q-card.stage-sheet .stage-close { top: 10px; right: 10px; background: rgba(255, 255, 255, 0.6); }
+[dir="rtl"] .q-card.stage-sheet .stage-close { right: auto; left: 10px; }
+.q-card.stage-sheet .build-chip { background: rgba(255, 255, 255, 0.7); }
+
+/* ===========================================================================
+   Eat: bites out of the burger.
+   Each bite is a scalloped hole - one big circle and two small ones at its
+   edge, like teeth - cut out of the WHOLE stack at once with a mask, so it
+   goes through every layer the same. The holes add up, bite by bite.
+   ======================================================================== */
+.stage .bstack.is-photo { width: fit-content; margin-inline: auto; }   /* the mask is the burger's own size */
+.stage-burger { position: relative; }
+.stage-burger.is-eating { cursor: default; pointer-events: none; }
+.stage-burger.is-eating .bl-remove { opacity: 0; }
+
+.stage .bstack {
+  --r: calc(var(--u) * 26);
+  --t: calc(var(--u) * 10);
+  --b1: radial-gradient(circle var(--r) at 100% 40%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--t) at 88% 26%, transparent 96%, #000 100%),
+        radial-gradient(circle var(--t) at 88% 55%, transparent 96%, #000 100%);
+  --b2: radial-gradient(circle var(--r) at 84% 64%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--t) at 72% 54%, transparent 96%, #000 100%),
+        radial-gradient(circle var(--t) at 74% 80%, transparent 96%, #000 100%);
+  --b3: radial-gradient(circle calc(var(--r) * 1.05) at 69% 34%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--t) at 57% 26%, transparent 96%, #000 100%),
+        radial-gradient(circle var(--t) at 58% 46%, transparent 96%, #000 100%);
+  --b4: radial-gradient(circle calc(var(--r) * 1.15) at 55% 60%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--t) at 42% 50%, transparent 96%, #000 100%),
+        radial-gradient(circle var(--t) at 43% 74%, transparent 96%, #000 100%);
+}
+[dir="rtl"] .stage .bstack {
+  --b1: radial-gradient(circle var(--r) at 0% 40%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--t) at 12% 26%, transparent 96%, #000 100%),
+        radial-gradient(circle var(--t) at 12% 55%, transparent 96%, #000 100%);
+  --b2: radial-gradient(circle var(--r) at 16% 64%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--t) at 28% 54%, transparent 96%, #000 100%),
+        radial-gradient(circle var(--t) at 26% 80%, transparent 96%, #000 100%);
+  --b3: radial-gradient(circle calc(var(--r) * 1.05) at 31% 34%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--t) at 43% 26%, transparent 96%, #000 100%),
+        radial-gradient(circle var(--t) at 42% 46%, transparent 96%, #000 100%);
+  --b4: radial-gradient(circle calc(var(--r) * 1.15) at 45% 60%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--t) at 58% 50%, transparent 96%, #000 100%),
+        radial-gradient(circle var(--t) at 57% 74%, transparent 96%, #000 100%);
+}
+.stage .bstack.bite-1, .stage .bstack.bite-2, .stage .bstack.bite-3,
+.stage .bstack.bite-4, .stage .bstack.bite-5 {
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+.stage .bstack.bite-1 { mask-image: var(--b1); -webkit-mask-image: var(--b1); animation: chomp-a 0.32s ease-out; }
+.stage .bstack.bite-2 { mask-image: var(--b1), var(--b2); -webkit-mask-image: var(--b1), var(--b2); animation: chomp-b 0.32s ease-out; }
+.stage .bstack.bite-3 { mask-image: var(--b1), var(--b2), var(--b3); -webkit-mask-image: var(--b1), var(--b2), var(--b3); animation: chomp-a 0.32s ease-out; }
+.stage .bstack.bite-4 { mask-image: var(--b1), var(--b2), var(--b3), var(--b4); -webkit-mask-image: var(--b1), var(--b2), var(--b3), var(--b4); animation: chomp-b 0.32s ease-out; }
+.stage .bstack.bite-5 {
+  mask-image: var(--b1), var(--b2), var(--b3), var(--b4);
+  -webkit-mask-image: var(--b1), var(--b2), var(--b3), var(--b4);
+  animation: eaten 0.6s ease-in forwards;
+}
+/* a bite: the burger is squeezed, then springs back */
+@keyframes chomp-a {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.94, 0.9) rotate(-2deg); }
+  100% { transform: scale(1); }
+}
+@keyframes chomp-b {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.94, 0.9) rotate(2deg); }
+  100% { transform: scale(1); }
+}
+/* the last of it: gone */
+@keyframes eaten {
+  to { transform: scale(0.5) translateY(30px); opacity: 0; }
+}
+
+/* crumbs: a few specks of bun thrown out from the bite */
+.crumbs { position: absolute; width: 0; height: 0; pointer-events: none; z-index: 70; }
+.crumbs i {
+  position: absolute;
+  width: 6px;
+  height: 5px;
+  border-radius: 45%;
+  background: #d99a45;
+  animation: crumb 0.6s cubic-bezier(0.2, 0.7, 0.4, 1) forwards;
+}
+.crumbs i:nth-child(odd) { background: #f1c77e; width: 4px; height: 4px; }
+.crumbs i:nth-child(3n) { background: #7cb342; }
+@keyframes crumb {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% {
+    transform: translate(calc((var(--c) - 4) * 9px), calc(28px + (var(--c) * 5px) - (var(--c) * var(--c) * 1px)))
+      rotate(calc(var(--c) * 50deg)) scale(0.6);
+    opacity: 0;
+  }
+}
+
+.build-foot { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
+.build-eat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.9rem;
+  padding: 6px 16px;
+  color: #fff;
+  background: var(--jb-red);
+  border: 0;
+  border-radius: 99px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px -8px rgba(227, 30, 36, 0.8);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+.build-eat:hover, .build-eat:focus-visible { transform: translateY(-1px); box-shadow: 0 10px 20px -8px rgba(227, 30, 36, 0.9); outline: none; }
+.build-eat:active { transform: scale(0.96); }
+.build-eat:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage .bstack.bite-1, .stage .bstack.bite-2, .stage .bstack.bite-3, .stage .bstack.bite-4 { animation: none; }
+  .crumbs { display: none; }
+}
+
+/* ---- Eat, quicker ------------------------------------------------------- */
+.stage .bstack.bite-1, .stage .bstack.bite-3 { animation-duration: 0.18s; }
+.stage .bstack.bite-2, .stage .bstack.bite-4 { animation-duration: 0.18s; }
+.stage .bstack.bite-5 { animation: eaten 0.34s ease-in forwards; }
+.crumbs i { animation-duration: 0.4s; }
+
+/* ---- the hungry button: a fat E with a bite out of its top corner -------- */
+.build-eat {
+  gap: 0;
+  padding: 7px 20px 7px 18px;
+  font-family: var(--font-cozy);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  background: linear-gradient(180deg, #f2333a, #c8141b);
+  box-shadow: 0 8px 18px -8px rgba(227, 30, 36, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.eat-first {
+  display: inline-block;
+  font-size: 1.45em;
+  line-height: 0.8;
+  margin-inline-end: 1px;
+  /* the bite: one big round and two small teeth marks, out of the top corner */
+  --bite: radial-gradient(circle 0.3em at 100% 0%, transparent 96%, #000 100%),
+          radial-gradient(circle 0.1em at 66% 6%, transparent 94%, #000 100%),
+          radial-gradient(circle 0.1em at 96% 40%, transparent 94%, #000 100%);
+  mask-image: var(--bite);
+  -webkit-mask-image: var(--bite);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  transform-origin: 50% 100%;
+}
+[dir="rtl"] .eat-first {
+  --bite: radial-gradient(circle 0.3em at 0% 0%, transparent 96%, #000 100%),
+          radial-gradient(circle 0.1em at 34% 6%, transparent 94%, #000 100%),
+          radial-gradient(circle 0.1em at 4% 40%, transparent 94%, #000 100%);
+}
+/* hungry: on hover the letter chomps */
+.build-eat:hover .eat-first, .build-eat:focus-visible .eat-first { animation: eat-chomp 0.5s ease-in-out infinite; }
+@keyframes eat-chomp {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  30% { transform: scale(1.12, 0.9) rotate(-6deg); }
+  60% { transform: scale(0.95, 1.06) rotate(3deg); }
+}
+.build-eat:disabled .eat-first { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .build-eat:hover .eat-first { animation: none; }
+}
+/* a smaller bite: the E's top arm is nibbled, not gone */
+.eat-first {
+  --bite: radial-gradient(circle 0.19em at 104% 2%, transparent 96%, #000 100%),
+          radial-gradient(circle 0.07em at 74% 4%, transparent 92%, #000 100%),
+          radial-gradient(circle 0.07em at 100% 30%, transparent 92%, #000 100%);
+}
+[dir="rtl"] .eat-first {
+  --bite: radial-gradient(circle 0.19em at -4% 2%, transparent 96%, #000 100%),
+          radial-gradient(circle 0.07em at 26% 4%, transparent 92%, #000 100%),
+          radial-gradient(circle 0.07em at 0% 30%, transparent 92%, #000 100%);
+}
+
+/* ===========================================================================
+   Bigger bites, all the way through. Seven bites, right to left, each one a
+   big round with two tooth marks at its edge, until there is nothing left.
+   ======================================================================== */
+.stage .bstack {
+  --R: calc(var(--u) * 40);
+  --T: calc(var(--u) * 13);
+  --e1: radial-gradient(circle var(--R) at 100% 42%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 82% 18%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 82% 68%, transparent 95%, #000 100%);
+  --e2: radial-gradient(circle var(--R) at 80% 76%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 62% 62%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 64% 96%, transparent 95%, #000 100%);
+  --e3: radial-gradient(circle var(--R) at 74% 18%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 56% 6%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 57% 36%, transparent 95%, #000 100%);
+  --e4: radial-gradient(circle calc(var(--R) * 1.1) at 55% 50%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 35% 38%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 36% 66%, transparent 95%, #000 100%);
+  --e5: radial-gradient(circle var(--R) at 32% 20%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 14% 10%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 14% 36%, transparent 95%, #000 100%);
+  --e6: radial-gradient(circle var(--R) at 28% 80%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 10% 66%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 12% 98%, transparent 95%, #000 100%);
+  --e7: radial-gradient(circle calc(var(--R) * 1.3) at 4% 48%, transparent 97%, #000 100%);
+}
+[dir="rtl"] .stage .bstack {
+  --e1: radial-gradient(circle var(--R) at 0% 42%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 18% 18%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 18% 68%, transparent 95%, #000 100%);
+  --e2: radial-gradient(circle var(--R) at 20% 76%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 38% 62%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 36% 96%, transparent 95%, #000 100%);
+  --e3: radial-gradient(circle var(--R) at 26% 18%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 44% 6%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 43% 36%, transparent 95%, #000 100%);
+  --e4: radial-gradient(circle calc(var(--R) * 1.1) at 45% 50%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 65% 38%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 64% 66%, transparent 95%, #000 100%);
+  --e5: radial-gradient(circle var(--R) at 68% 20%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 86% 10%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 86% 36%, transparent 95%, #000 100%);
+  --e6: radial-gradient(circle var(--R) at 72% 80%, transparent 97%, #000 100%),
+        radial-gradient(circle var(--T) at 90% 66%, transparent 95%, #000 100%),
+        radial-gradient(circle var(--T) at 88% 98%, transparent 95%, #000 100%);
+  --e7: radial-gradient(circle calc(var(--R) * 1.3) at 96% 48%, transparent 97%, #000 100%);
+}
+.stage .bstack.bite-6, .stage .bstack.bite-7, .stage .bstack.bite-8 {
+  mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat;
+  mask-composite: intersect; -webkit-mask-composite: source-in;
+}
+.stage .bstack.bite-1 { mask-image: var(--e1); -webkit-mask-image: var(--e1); animation: chomp-a 0.17s ease-out; }
+.stage .bstack.bite-2 { mask-image: var(--e1), var(--e2); -webkit-mask-image: var(--e1), var(--e2); animation: chomp-b 0.17s ease-out; }
+.stage .bstack.bite-3 { mask-image: var(--e1), var(--e2), var(--e3); -webkit-mask-image: var(--e1), var(--e2), var(--e3); animation: chomp-a 0.17s ease-out; }
+.stage .bstack.bite-4 { mask-image: var(--e1), var(--e2), var(--e3), var(--e4); -webkit-mask-image: var(--e1), var(--e2), var(--e3), var(--e4); animation: chomp-b 0.17s ease-out; }
+.stage .bstack.bite-5 { mask-image: var(--e1), var(--e2), var(--e3), var(--e4), var(--e5); -webkit-mask-image: var(--e1), var(--e2), var(--e3), var(--e4), var(--e5); animation: chomp-a 0.17s ease-out; }
+.stage .bstack.bite-6 { mask-image: var(--e1), var(--e2), var(--e3), var(--e4), var(--e5), var(--e6); -webkit-mask-image: var(--e1), var(--e2), var(--e3), var(--e4), var(--e5), var(--e6); animation: chomp-b 0.17s ease-out; }
+.stage .bstack.bite-7 { mask-image: var(--e1), var(--e2), var(--e3), var(--e4), var(--e5), var(--e6), var(--e7); -webkit-mask-image: var(--e1), var(--e2), var(--e3), var(--e4), var(--e5), var(--e6), var(--e7); animation: chomp-a 0.17s ease-out; }
+.stage .bstack.bite-8 {
+  mask-image: var(--e1), var(--e2), var(--e3), var(--e4), var(--e5), var(--e6), var(--e7);
+  -webkit-mask-image: var(--e1), var(--e2), var(--e3), var(--e4), var(--e5), var(--e6), var(--e7);
+  animation: eaten 0.3s ease-in forwards;
+}
+.crumbs i { width: 7px; height: 6px; }
+
+/* ===========================================================================
+   Back to the original: an icon that behaves like a game power-up.
+   ======================================================================== */
+.build-reset {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  background: radial-gradient(circle at 35% 30%, #ffd75e, #f5a400 70%);
+  border: 0;
+  box-shadow: 0 4px 0 #c27c00, 0 8px 14px -6px rgba(194, 124, 0, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: transform 0.12s, box-shadow 0.12s;
+  animation: reset-bob 1.8s ease-in-out infinite;
+}
+.build-reset:hover, .build-reset:focus-visible { text-decoration: none; outline: none; }
+.build-reset:hover .q-icon, .build-reset:focus-visible .q-icon { animation: reset-wind 0.6s cubic-bezier(0.3, 1.4, 0.5, 1); }
+/* pressed: pushed into the page, like an arcade button */
+.build-reset:active { transform: translateY(3px); box-shadow: 0 1px 0 #c27c00, inset 0 2px 0 rgba(255, 255, 255, 0.55); animation: none; }
+@keyframes reset-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes reset-wind {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+/* arriving: pops in with a spin; leaving: rewinds away */
+.reset-pop-enter-active { animation: reset-in 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.reset-pop-leave-active { animation: reset-out 0.4s ease-in forwards; }
+@keyframes reset-in {
+  0% { transform: scale(0) rotate(-200deg); opacity: 0; }
+  70% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); }
+}
+@keyframes reset-out {
+  0% { transform: scale(1) rotate(0deg); }
+  30% { transform: scale(1.15) rotate(40deg); }
+  100% { transform: scale(0) rotate(-540deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .build-reset, .build-reset .q-icon, .reset-pop-enter-active, .reset-pop-leave-active { animation: none; }
+}

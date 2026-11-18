@@ -95,20 +95,20 @@ const FRIES = ["fries-boxed"];
 // how the item is pictured on the site: the menu does not list what is in a
 // burger beyond its patty, so the salad and cheese shown are an illustration.
 const rows = [
-  ["Meals", "Jan Meal", "جان وجبة", 2.2, "Beef patty, fries & drink", BEEF],
-  ["Meals", "Chi. Jan Meal", "ج جان وجبة", 2.2, "Chicken patty, fries & drink", CHICKEN],
-  ["Meals", "Big Jan Meal", "بق جان وجبة", 2.8, "2x beef patty, fries & drink", BIG_BEEF],
-  ["Meals", "Big Chi. Jan Meal", "بق ج جان وجبة", 2.8, "2x chicken patty, fries & drink", BIG_CHICKEN],
-  ["Meals", "Mix Jan Meal", "مكس جان وجبة", 2.8, "Chicken & beef patty, fries & drink", MIX],
-  ["Meals", "Classic Club Meal", "وجبة كلوب كلاسيكية", 2.0, "", []],
-  ["Meals", "Jan Club Meal", "جان كلوب وجبة", 2.6, "", []],
+  ["Burger Meals", "Jan Meal", "جان وجبة", 2.2, "Beef patty, fries & drink", BEEF],
+  ["Burger Meals", "Chi. Jan Meal", "ج جان وجبة", 2.2, "Chicken patty, fries & drink", CHICKEN],
+  ["Burger Meals", "Big Jan Meal", "بق جان وجبة", 2.8, "2x beef patty, fries & drink", BIG_BEEF],
+  ["Burger Meals", "Big Chi. Jan Meal", "بق ج جان وجبة", 2.8, "2x chicken patty, fries & drink", BIG_CHICKEN],
+  ["Burger Meals", "Mix Jan Meal", "مكس جان وجبة", 2.8, "Chicken & beef patty, fries & drink", MIX],
+  ["Club Meals", "Classic Club Meal", "وجبة كلوب كلاسيكية", 2.0, "", []],
+  ["Club Meals", "Jan Club Meal", "جان كلوب وجبة", 2.6, "", []],
 
   ["Sides", "Janapeño Cheese Bites", "قطع الجبن بالهالبينو", 1.1, "New", []],
-  ["Sides", "French Fries - Regular", "بطاطس مقلية - عادي", 0.7, "", FRIES],
-  ["Sides", "French Fries - Large", "بطاطس مقلية - كبير", 1.3, "", FRIES],
-  ["Sides", "Garlic Fries - Regular", "بطاطس بالثوم - عادي", 1.1, "", FRIES],
-  ["Sides", "Garlic Fries - Large", "بطاطس بالثوم - كبير", 1.7, "", FRIES],
-  ["Sides", "Extra Cheese", "جبن إضافي", 0.15, "", ["cheese"]],
+  ["Sides", "French Fries - Regular", "بطاطس مقلية - عادي", 0.7, "", []],
+  ["Sides", "French Fries - Large", "بطاطس مقلية - كبير", 1.3, "", []],
+  ["Sides", "Garlic Fries - Regular", "بطاطس بالثوم - عادي", 1.1, "", []],
+  ["Sides", "Garlic Fries - Large", "بطاطس بالثوم - كبير", 1.7, "", []],
+  ["Sides", "Extra Cheese", "جبن إضافي", 0.15, "", []],
 
   ["Mojitos", "Blue Oasis", "الواحة الزرقاء", 1.2, "", []],
   ["Mojitos", "Passion Mirage", "سراب الشغف", 1.2, "", []],
@@ -121,7 +121,7 @@ const rows = [
 
   ["Soft Drinks", "Water", "ماء", 0.2, "", ["water-bottle"]],
   ["Soft Drinks", "Juice", "عصير", 0.3, "", []],
-  ["Soft Drinks", "Kinza", "كينزا", 0.4, "Cola, Orange, Blackcurrant, Citrus, Lemon, Zero Lime", []],
+  ["Soft Drinks", "Soft Drinks", "مشروبات غازية", 0.4, "Cola, Orange, Blackcurrant, Citrus, Lemon, Zero Lime", []],
 ];
 
 // The Arabic of each description. "Sugar-free mojito" is the menu's own
@@ -164,7 +164,7 @@ const info = {
   aboutAr: "في خدمتكم منذ عام 1993.",
   // the Muharraq branch's two lines - the same shop the old sign's numbers were for
   phones: ["17331991", "17322292"],
-  categories: ["Meals", "Sides", "Mojitos", "Ice Teas", "Soft Drinks"],
+  categories: ["Burger Meals", "Club Meals", "Sides", "Mojitos", "Ice Teas", "Soft Drinks"],
   announcement: "New branch - coming soon | فرع جديد - قريباً",
   menuUrl: "https://drive.google.com/file/d/1RcssOsTpUYYtEfaROgYJGh-Kf3YveE6p/view",
   helpdeskUrl: "https://janburger.odoo.com/helpdesk/customer-care-1",

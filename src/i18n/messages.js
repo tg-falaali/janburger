@@ -32,6 +32,7 @@ export const messages = {
       add: "Add {name}",
       full: "That's as tall as it gets!",
       reset: "Back to the original",
+      eat: "Eat",
       dragHint: "Drag onto the burger to add",
       close: "Close",
     },
@@ -102,6 +103,7 @@ export const messages = {
       add: "إضافة {name}",
       full: "هذا أقصى ارتفاع!",
       reset: "العودة إلى الأصل",
+      eat: "كُل",
       dragHint: "اسحب إلى البرجر للإضافة",
       close: "إغلاق",
     },
@@ -149,6 +151,8 @@ export const messages = {
 // database. One that is not listed is shown as it was typed.
 export const categoryAr = {
   Meals: "الوجبات",
+  "Burger Meals": "وجبات البرجر",
+  "Club Meals": "وجبات الكلوب",
   Sides: "الأطباق الجانبية",
   Mojitos: "الموهيتو",
   "Ice Teas": "الشاي المثلج",

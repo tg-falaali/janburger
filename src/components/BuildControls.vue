@@ -20,8 +20,19 @@
 
     <div class="build-foot">
       <span v-if="full">{{ t("menu.full") }}</span>
-      <button v-if="changed" class="build-reset" type="button" @click="$emit('reset')">
-        <q-icon name="restart_alt" size="16px" /> {{ t("menu.reset") }}
+      <!-- pops in like a power-up when something has changed; spins back
+           (a rewind) as it goes -->
+      <Transition name="reset-pop">
+        <button
+          v-if="changed" class="build-reset" type="button"
+          :aria-label="t('menu.reset')" :title="t('menu.reset')" @click="$emit('reset')"
+        >
+          <q-icon name="restart_alt" size="22px" />
+        </button>
+      </Transition>
+      <!-- the first letter has had a bite taken out of it -->
+      <button class="build-eat" type="button" :disabled="eating" :aria-label="t('menu.eat')" @click="$emit('eat')">
+        <span class="eat-first" aria-hidden="true">{{ eatWord[0] }}</span><span aria-hidden="true">{{ eatWord.slice(1).join("") }}</span>
       </button>
     </div>
   </div>
@@ -34,6 +45,7 @@ import { useI18n } from "vue-i18n";
 import { useLocale } from "src/i18n";
 
 const { t } = useI18n();
+const eatWord = computed(() => [...t("menu.eat")]);
 const { pick, other } = useLocale();
 
 const props = defineProps({
@@ -41,9 +53,10 @@ const props = defineProps({
   extras: { type: Array, default: () => [] },
   changed: { type: Boolean, default: false },
   full: { type: Boolean, default: false },
+  eating: { type: Boolean, default: false },
 });
 
-defineEmits(["remove", "add", "grab", "reset"]);
+defineEmits(["remove", "add", "grab", "reset", "eat"]);
 
 /** The ingredient's own photograph, small, as the thing to pick up. */
 const thumb = (key) => resolveLayers([key])[0]?.photo?.file || "";

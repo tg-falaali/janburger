@@ -1,0 +1,24 @@
+{
+  "menu/item-01/category": "Burger Meals",
+  "menu/item-02/category": "Burger Meals",
+  "menu/item-03/category": "Burger Meals",
+  "menu/item-04/category": "Burger Meals",
+  "menu/item-05/category": "Burger Meals",
+  "menu/item-06/category": "Club Meals",
+  "menu/item-07/category": "Club Meals",
+  "menu/item-09/layers": null,
+  "menu/item-10/layers": null,
+  "menu/item-11/layers": null,
+  "menu/item-12/layers": null,
+  "menu/item-13/layers": null,
+  "menu/item-23/name": "Soft Drinks",
+  "menu/item-23/nameAr": "مشروبات غازية",
+  "site/info/categories": [
+    "Burger Meals",
+    "Club Meals",
+    "Sides",
+    "Mojitos",
+    "Ice Teas",
+    "Soft Drinks"
+  ]
+}
