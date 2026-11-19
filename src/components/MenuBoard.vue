@@ -57,7 +57,14 @@
                 <span v-if="item.available === false" class="sold-out">{{ t("menu.unavailable") }}</span>
                 <span v-else-if="pick(item.description, item.descriptionAr)" class="mcard-desc">{{ pick(item.description, item.descriptionAr) }}</span>
               </span>
-              <span class="mcard-price" dir="ltr">
+              <!-- one item in several sizes: each size with its own price -->
+              <span v-if="sizesOf(item).length" class="mcard-sizes">
+                <span v-for="(size, s) in sizesOf(item)" :key="s" class="msize">
+                  <span class="msize-name">{{ pick(size.name, size.nameAr) }}</span>
+                  <span class="msize-price" dir="ltr"><span class="mcard-bd">{{ t("currency") }}</span>{{ priceOnly(size.price) }}</span>
+                </span>
+              </span>
+              <span v-else class="mcard-price" dir="ltr">
                 <span class="mcard-bd">{{ t("currency") }}</span>{{ priceOnly(item.price) }}
               </span>
             </component>
@@ -87,7 +94,6 @@
               <i v-for="c in 7" :key="c" :style="{ '--c': c }"></i>
             </span>
           </div>
-          <Burger3D v-else :layers="build" :open="exploded && canPlay" />
           <BuildControls
             v-if="canPlay" :layers="build" :extras="extras" :changed="changed" :full="build.length >= MAX_LAYERS"
             :eating="eatStage > 0" @remove="removeAt" @add="add" @grab="grab" @reset="reset" @eat="eat"
@@ -121,7 +127,6 @@
               <i v-for="c in 7" :key="c" :style="{ '--c': c }"></i>
             </span>
           </div>
-          <Burger3D v-else :layers="build" :open="exploded && canPlay" />
           <BuildControls
             v-if="canPlay" :layers="build" :extras="extras" :changed="changed" :full="build.length >= MAX_LAYERS"
             :eating="eatStage > 0" @remove="removeAt" @add="add" @grab="grab" @reset="reset" @eat="eat"
@@ -136,7 +141,7 @@
         v-if="drag" class="drag-ghost" :class="{ 'is-over': drag.index >= 0 }"
         :style="{ left: drag.x + 'px', top: drag.y + 'px' }" aria-hidden="true"
       >
-        <img v-if="drag.file" :src="'layers/' + drag.file" alt="" draggable="false" />
+        <img v-if="drag.file" :src="drag.file" alt="" draggable="false" />
         <span v-else>{{ drag.label }}</span>
       </div>
     </Teleport>
@@ -148,8 +153,6 @@ import { computed, defineAsyncComponent, onBeforeUnmount, ref, watch } from "vue
 import { useQuasar } from "quasar";
 import BurgerStack from "components/BurgerStack.vue";
 
-// three.js is only fetched when the menu is actually looked at
-const Burger3D = defineAsyncComponent(() => import("components/Burger3D.vue"));
 import BuildControls from "components/BuildControls.vue";
 import vReveal from "src/directives/reveal";
 import { useI18n } from "vue-i18n";
@@ -159,6 +162,7 @@ const { t } = useI18n();
 const { pick, other, category } = useLocale();
 
 const priceOnly = (price) => Number(price || 0).toFixed(3);
+const sizesOf = (item) => (Array.isArray(item.sizes) ? item.sizes.filter((s) => s && (s.name || s.nameAr)) : []);
 import { LAYERS, resolveLayers, extrasFor, addLayer, hasPhotos, MAX_LAYERS } from "src/utils/burgerLayers";
 
 const props = defineProps({
@@ -221,12 +225,11 @@ const photos = computed(() => hasPhotos(build.value));
 // item is made with: a Jan Meal keeps its beef patty, a Big Jan Meal both of
 // them. Meat that was ADDED can come out again - so a patty shows its minus
 // only while there are more of them than the item started with.
-const MEATS = ["patty", "chicken", "sausage"];
 const count = (keys, key) => keys.filter((k) => k === key).length;
 const removable = computed(() =>
   build.value.map((key) => {
     if (LAYERS[key]?.fixed) return false;
-    if (MEATS.includes(key)) return count(build.value, key) > count(original.value, key);
+    if (LAYERS[key]?.meat) return count(build.value, key) > count(original.value, key);
     return true;
   })
 );
@@ -322,7 +325,7 @@ function grab(key, event) {
   const layer = resolveLayers([key])[0];
   held = {
     key,
-    file: layer?.photo?.file || "",
+    file: layer?.photo?.src || "",
     label: pick(layer?.label, layer?.labelAr),
     x: event.clientX,
     y: event.clientY,

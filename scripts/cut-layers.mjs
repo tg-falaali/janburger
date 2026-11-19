@@ -38,7 +38,7 @@ const BLOCK = 8; // items are grouped on a coarse grid
 const JOIN = 2; // blocks this close belong to the same item (pickles, rings)
 const OUT_WIDTH = 520;
 
-const outDir = "public/layers";
+const outDir = "assets-src/layers"; // uploaded with scripts/upload-layers.cjs
 mkdirSync(outDir, { recursive: true });
 const manifest = {};
 
@@ -259,6 +259,6 @@ async function friesInCarton(key, withCheese) {
 await friesInCarton("fries-boxed", false);
 await friesInCarton("cheese-fries-boxed", true);
 
-mkdirSync("src/data", { recursive: true });
-writeFileSync("src/data/photoLayers.json", JSON.stringify(manifest, null, 2) + "\n");
+mkdirSync("assets-src", { recursive: true });
+writeFileSync("assets-src/photoLayers.json", JSON.stringify(manifest, null, 2) + "\n");
 console.log(`\n${Object.keys(manifest).length} layers written to ${outDir}/`);

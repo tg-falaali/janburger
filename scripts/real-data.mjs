@@ -104,10 +104,9 @@ const rows = [
   ["Club Meals", "Jan Club Meal", "جان كلوب وجبة", 2.6, "", []],
 
   ["Sides", "Janapeño Cheese Bites", "قطع الجبن بالهالبينو", 1.1, "New", []],
-  ["Sides", "French Fries - Regular", "بطاطس مقلية - عادي", 0.7, "", []],
-  ["Sides", "French Fries - Large", "بطاطس مقلية - كبير", 1.3, "", []],
-  ["Sides", "Garlic Fries - Regular", "بطاطس بالثوم - عادي", 1.1, "", []],
-  ["Sides", "Garlic Fries - Large", "بطاطس بالثوم - كبير", 1.7, "", []],
+  // an item in sizes: the price is [size, size in Arabic, price] for each
+  ["Sides", "French Fries", "بطاطس مقلية", [["Regular", "عادي", 0.7], ["Large", "كبير", 1.3]], "", []],
+  ["Sides", "Garlic Fries", "بطاطس بالثوم", [["Regular", "عادي", 1.1], ["Large", "كبير", 1.7]], "", []],
   ["Sides", "Extra Cheese", "جبن إضافي", 0.15, "", []],
 
   ["Mojitos", "Blue Oasis", "الواحة الزرقاء", 1.2, "", []],
@@ -150,7 +149,13 @@ const menu = Object.fromEntries(
   rows.map(([category, name, nameAr, price, description, layers], i) => [
     `item-${String(i + 1).padStart(2, "0")}`,
     {
-      order: i + 1, category, name, nameAr, price, description, available: true,
+      order: i + 1, category, name, nameAr, description, available: true,
+      ...(Array.isArray(price)
+        ? {
+            sizes: price.map(([size, sizeAr, amount]) => ({ name: size, nameAr: sizeAr, price: amount })),
+            price: Math.min(...price.map(([, , amount]) => amount)),
+          }
+        : { price }),
       ...(DESCRIPTION_AR[description] ? { descriptionAr: DESCRIPTION_AR[description] } : {}),
       ...(layers.length ? { layers } : {}),
     },

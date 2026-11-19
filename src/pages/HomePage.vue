@@ -36,9 +36,8 @@
       </div>
     </header>
 
-    <div v-if="info.announcement" class="ticker" role="status">
-      {{ info.announcement }}
-    </div>
+    <!-- the announcement, on a strip of paper tape that slides as you scroll -->
+    <TapeStrip :text="pick(info.announcement, info.announcementAr)" :rtl="isAr" />
 
     <q-banner v-if="state.error" class="text-negative" role="alert">
       {{ t("error") }}
@@ -86,6 +85,24 @@
       <div class="wrap">
         <div class="foot-grid">
           <div v-reveal="0">
+            <!-- on the charcoal: the patty is flipped now and then, the smoke rises -->
+            <svg class="foot-grill" viewBox="0 0 120 92" aria-hidden="true">
+              <path class="g-smoke" d="M44 30 q-6 -7 0 -13 q6 -6 0 -13" />
+              <path class="g-smoke" d="M60 28 q-6 -7 0 -13 q6 -6 0 -13" />
+              <path class="g-smoke" d="M76 30 q-6 -7 0 -13 q6 -6 0 -13" />
+              <g class="g-flip">
+                <rect class="g-patty" x="38" y="36" width="44" height="12" rx="6" />
+                <line class="g-mark" x1="48" y1="39" x2="52" y2="45" />
+                <line class="g-mark" x1="58" y1="39" x2="62" y2="45" />
+                <line class="g-mark" x1="68" y1="39" x2="72" y2="45" />
+              </g>
+              <path class="g-line g-bowl" d="M18 52 H102 Q98 78 60 80 Q22 78 18 52 Z" />
+              <circle class="g-ember" cx="46" cy="64" r="3.2" />
+              <circle class="g-ember" cx="60" cy="68" r="3.2" />
+              <circle class="g-ember" cx="74" cy="64" r="3.2" />
+              <path class="g-line" d="M14 52 H106" />
+              <path class="g-line" d="M40 78 L32 90 M80 78 L88 90" />
+            </svg>
             <h3>{{ pick(info.name, info.nameAr) }} — {{ pick(info.tagline, info.taglineAr) }}</h3>
             <p class="q-mb-none">{{ pick(info.about, info.aboutAr) }}</p>
           </div>
@@ -101,11 +118,11 @@
             <h3>{{ t("footer.listening") }}</h3>
             <div class="column q-gutter-sm items-start">
               <q-btn
-                v-if="link(info.helpdeskUrl)" outline rounded no-caps color="secondary" icon="support_agent"
+                v-if="link(info.helpdeskUrl)" dir="ltr" outline rounded no-caps color="secondary" icon="support_agent"
                 :label="t('footer.helpdesk')" :href="link(info.helpdeskUrl)" target="_blank" rel="noopener"
               />
               <q-btn
-                v-if="info.cateringEmail" outline rounded no-caps color="secondary" icon="celebration"
+                v-if="info.cateringEmail" dir="ltr" outline rounded no-caps color="secondary" icon="celebration"
                 :label="t('footer.catering')" :href="`mailto:${info.cateringEmail}`"
               />
             </div>
@@ -116,11 +133,11 @@
             <h3>{{ t("footer.follow") }}</h3>
             <div class="column q-gutter-sm items-start">
               <q-btn
-                v-if="info.whatsapp" outline rounded no-caps color="secondary" icon="chat"
+                v-if="info.whatsapp" dir="ltr" outline rounded no-caps color="secondary" icon="fa-brands fa-whatsapp"
                 label="WhatsApp" :href="`https://wa.me/${whatsappDigits}`" target="_blank" rel="noopener"
               />
               <q-btn
-                v-if="info.instagram" outline rounded no-caps color="secondary" icon="photo_camera"
+                v-if="info.instagram" dir="ltr" outline rounded no-caps color="secondary" icon="fa-brands fa-instagram"
                 :label="`@${instagramHandle}`" :href="`https://instagram.com/${instagramHandle}`"
                 target="_blank" rel="noopener"
               />
@@ -142,6 +159,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import SignBoard from "components/SignBoard.vue";
 import MenuBoard from "components/MenuBoard.vue";
 import BranchCard from "components/BranchCard.vue";
+import TapeStrip from "components/TapeStrip.vue";
 import { useSiteData } from "src/composables/useSiteData";
 import { bahrainNow, isOpenNow } from "src/utils/hours";
 import vReveal from "src/directives/reveal";

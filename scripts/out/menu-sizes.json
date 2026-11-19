@@ -1,0 +1,47 @@
+{
+  "item-09": {
+    "available": true,
+    "category": "Sides",
+    "description": "",
+    "descriptionAr": "",
+    "name": "French Fries",
+    "nameAr": "بطاطس مقلية",
+    "order": 9,
+    "price": 0.7,
+    "sizes": [
+      {
+        "name": "Regular",
+        "nameAr": "عادي",
+        "price": 0.7
+      },
+      {
+        "name": "Large",
+        "nameAr": "كبير",
+        "price": 1.3
+      }
+    ]
+  },
+  "item-10": null,
+  "item-11": {
+    "available": true,
+    "category": "Sides",
+    "description": "",
+    "name": "Garlic Fries",
+    "nameAr": "بطاطس بالثوم",
+    "order": 11,
+    "price": 1.1,
+    "sizes": [
+      {
+        "name": "Regular",
+        "nameAr": "عادي",
+        "price": 1.1
+      },
+      {
+        "name": "Large",
+        "nameAr": "كبير",
+        "price": 1.7
+      }
+    ]
+  },
+  "item-12": null
+}

@@ -1,14 +1,19 @@
 import { reactive, computed } from "vue";
 import { ref as dbRef, onValue, set, push, remove, update } from "firebase/database";
-import { db, firebaseReady } from "src/firebase/config";
+import { db, storage, firebaseReady } from "src/firebase/config";
+import { ref as fileRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { blobToDataUrl } from "src/utils/imagePrep";
 import { seedInfo, seedBranches, seedMenu } from "src/data/seed";
+import { registerCustomLayers } from "src/utils/burgerLayers";
 
 /**
  * Realtime Database layout:
  *   site/info        name, phones, announcement, categories...
  *   branches/{id}    name, nameAr, address, phone, mapUrl, active, order, hours[7]
  *   menu/{id}        name, nameAr, category, price, description, available, order, layers[]
- *
+ *   layers/{key}     an ingredient staff uploaded: label, labelAr, url, path, w, h,
+ *                    kind, addTo[], meat, width, closed, open - its picture is in
+ *                    Storage at layers/<file> (storage.rules)
  *
  * Everyone may read; only a signed-in user may write (database.rules.json).
  * Without Firebase keys the same API runs over localStorage, as a demo.
@@ -19,6 +24,7 @@ import { seedInfo, seedBranches, seedMenu } from "src/data/seed";
  */
 
 const DEMO_KEY = "jan-burger-demo-v5"; // bumped when the sample data gains fields
+const LAYERS_CACHE = "jan-burger-layers";
 
 const state = reactive({
   demo: !firebaseReady,
@@ -27,6 +33,7 @@ const state = reactive({
   info: { ...seedInfo, phones: [...seedInfo.phones] },
   branches: [],
   menu: [],
+  layers: {},
 });
 
 let started = false;
@@ -56,6 +63,7 @@ function demoSave() {
         info: state.info,
         branches: state.branches,
         menu: state.menu,
+        layers: state.layers,
       })
     );
   } catch {
@@ -83,6 +91,8 @@ function start() {
     state.info = { ...seedInfo, ...data.info };
     state.branches = data.branches.sort(byOrder);
     state.menu = data.menu.sort(byOrder);
+    state.layers = data.layers || {};
+    registerCustomLayers(state.layers);
     state.loading = false;
     return;
   }
@@ -133,6 +143,32 @@ function start() {
     );
   listen("branches");
   listen("menu");
+
+  // the layers (pictures) of the menu. The last ones seen are kept on this
+  // device, so the burgers are drawn at once on a return visit while the
+  // fresh list loads.
+  try {
+    const cached = JSON.parse(localStorage.getItem(LAYERS_CACHE) || "null");
+    if (cached) {
+      state.layers = cached;
+      registerCustomLayers(cached);
+    }
+  } catch {
+    /* nothing cached */
+  }
+  onValue(
+    dbRef(db, "layers"),
+    (snap) => {
+      state.layers = snap.val() || {};
+      registerCustomLayers(state.layers);
+      try {
+        localStorage.setItem(LAYERS_CACHE, JSON.stringify(state.layers));
+      } catch {
+        /* not cached, still shown */
+      }
+    },
+    () => {}
+  );
 }
 
 // ------------------------------------------------------------------- actions
@@ -193,6 +229,72 @@ async function loadSample() {
   });
 }
 
+// ---- layers staff upload --------------------------------------------------
+const STORAGE_HINT =
+  "Pictures cannot be saved yet: Firebase Storage is not switched on for this project. " +
+  "Open the Firebase console, Storage, and press Get started.";
+
+function friendly(err) {
+  const code = err?.code || "";
+  if (code === "storage/unauthorized") return new Error("You are not allowed to upload pictures. Sign in again.");
+  if (code.startsWith("storage/") && /bucket|not.found|unknown|project/i.test(code + err.message)) return new Error(STORAGE_HINT);
+  if (code === "storage/retry-limit-exceeded") return new Error("The upload timed out. Check the connection and try again.");
+  return err;
+}
+
+/**
+ * Saves a layer. `picture` is the prepared image ({ blob, w, h }) when a new
+ * one was chosen; without it the layer keeps the picture it has.
+ */
+async function saveLayer(key, details, picture) {
+  const row = { ...clone(details) };
+  delete row.previewUrl;
+
+  if (state.demo) {
+    if (picture) row.url = await blobToDataUrl(picture.blob);
+    state.layers = { ...state.layers, [key]: row };
+    registerCustomLayers(state.layers);
+    demoSave();
+    return;
+  }
+
+  const before = state.layers[key];
+  if (picture) {
+    const ext = picture.blob.type === "image/webp" ? "webp" : "png";
+    const path = `layers/${key}-${Date.now()}.${ext}`;
+    try {
+      const target = fileRef(storage, path);
+      await uploadBytes(target, picture.blob, {
+        contentType: picture.blob.type,
+        cacheControl: "public, max-age=31536000, immutable",
+      });
+      row.url = await getDownloadURL(target);
+      row.path = path;
+    } catch (err) {
+      throw friendly(err);
+    }
+  }
+  await set(dbRef(db, `layers/${key}`), row);
+  // the picture it had before is no longer used by anything
+  if (picture && before?.path && before.path !== row.path) {
+    deleteObject(fileRef(storage, before.path)).catch(() => {});
+  }
+}
+
+async function removeLayer(key) {
+  if (state.demo) {
+    const next = { ...state.layers };
+    delete next[key];
+    state.layers = next;
+    registerCustomLayers(state.layers);
+    demoSave();
+    return;
+  }
+  const path = state.layers[key]?.path;
+  await remove(dbRef(db, `layers/${key}`));
+  if (path) deleteObject(fileRef(storage, path)).catch(() => {});
+}
+
 const nextOrder = (list) =>
   list.reduce((max, x) => Math.max(max, x.order ?? 0), 0) + 1;
 
@@ -216,6 +318,8 @@ export function useSiteData() {
     removeMenuItem: (id) => removeItem("menu", id),
     loadSample,
     nextOrder,
+    saveLayer,
+    removeLayer,
   };
 }
 

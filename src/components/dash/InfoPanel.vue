@@ -9,8 +9,24 @@
     </div>
     <q-input v-model.trim="form.company" label="Company line on the sign" outlined dense />
 
-    <q-input v-model.trim="form.announcement" label="Announcement strip (optional)" outlined dense
-      hint="Shown in yellow under the sign, e.g. Ramadan timings. Leave empty to hide." />
+    <!-- the announcement: a strip of paper tape under the sign that slides as the page scrolls -->
+    <div class="dannounce">
+      <div class="dlabel">Announcement strip <span class="dopt">optional · leave empty to hide</span></div>
+      <div class="form-row">
+        <q-input
+          v-model="form.announcement" type="textarea" autogrow outlined dense label="In English"
+          hint="One sentence per line. Put a word between *stars* to print it in red."
+        />
+        <q-input
+          v-model="form.announcementAr" type="textarea" autogrow outlined dense dir="rtl" label="بالعربي"
+          hint="سطر لكل جملة. ضع الكلمة بين *نجمتين* لتظهر بالأحمر. فارغ = يُعرض النص الإنجليزي"
+        />
+      </div>
+      <div v-if="(form.announcement || '').trim() || (form.announcementAr || '').trim()" class="dannounce-preview">
+        <TapeStrip still :text="form.announcement" />
+        <TapeStrip v-if="(form.announcementAr || '').trim()" still rtl :text="form.announcementAr" />
+      </div>
+    </div>
 
     <q-select
       v-model="form.phones" label="Phone numbers" multiple use-chips use-input hide-dropdown-icon
@@ -41,7 +57,7 @@
     <div class="row">
       <q-space />
       <q-btn flat no-caps label="Undo changes" class="q-mr-sm" @click="reset" />
-      <q-btn type="submit" outline rounded no-caps color="primary" icon="save" label="Save info" :loading="busy" />
+      <q-btn type="submit" unelevated rounded no-caps color="primary" icon="check" label="Save info" :loading="busy" />
     </div>
   </q-form>
 </template>
@@ -50,6 +66,7 @@
 import { ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import { useSiteData } from "src/composables/useSiteData";
+import TapeStrip from "components/TapeStrip.vue";
 
 const $q = useQuasar();
 const { state, saveInfo } = useSiteData();

@@ -16,7 +16,7 @@
       :style="layerStyle(layer, i)"
     >
       <img
-        v-if="layer.photo" class="bl-photo" :src="'layers/' + layer.photo.file" alt=""
+        v-if="layer.photo" class="bl-photo" :src="layer.photo.src" alt=""
         :width="layer.photo.w" :height="layer.photo.h" decoding="async" draggable="false"
       />
       <svg v-else class="bl-art" :viewBox="'0 0 120 ' + layer.h" aria-hidden="true">

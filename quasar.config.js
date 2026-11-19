@@ -5,27 +5,30 @@ import { defineConfig } from "#q-app/wrappers";
 import dotenv from "dotenv";
 dotenv.config();
 
+// JB_DEMO=1 runs the site with no Firebase at all (demo mode), whatever .env says
+const DEMO = process.env.JB_DEMO === "1";
+
 export default defineConfig(() => {
   return {
     boot: ["i18n"],
 
     css: ["app.css"],
 
-    extras: ["material-icons"],
+    extras: ["material-icons", "fontawesome-v6"],
 
     build: {
       vueRouterMode: "hash",
 
       // This app has its OWN Firebase project. Empty values = demo mode.
       env: {
-        FIREBASE_API_KEY: process.env.FIREBASE_API_KEY || "",
-        FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN || "",
-        FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID || "",
-        FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL || "",
-        FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET || "",
+        FIREBASE_API_KEY: DEMO ? "" : process.env.FIREBASE_API_KEY || "",
+        FIREBASE_AUTH_DOMAIN: DEMO ? "" : process.env.FIREBASE_AUTH_DOMAIN || "",
+        FIREBASE_PROJECT_ID: DEMO ? "" : process.env.FIREBASE_PROJECT_ID || "",
+        FIREBASE_DATABASE_URL: DEMO ? "" : process.env.FIREBASE_DATABASE_URL || "",
+        FIREBASE_STORAGE_BUCKET: DEMO ? "" : process.env.FIREBASE_STORAGE_BUCKET || "",
         FIREBASE_MESSAGING_SENDER_ID:
           process.env.FIREBASE_MESSAGING_SENDER_ID || "",
-        FIREBASE_APP_ID: process.env.FIREBASE_APP_ID || "",
+        FIREBASE_APP_ID: DEMO ? "" : process.env.FIREBASE_APP_ID || "",
       },
 
       esbuildTarget: {

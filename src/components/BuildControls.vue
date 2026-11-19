@@ -9,7 +9,7 @@
         @pointerdown="$emit('grab', key, $event)"
         @keydown.enter.prevent="$emit('add', key)" @keydown.space.prevent="$emit('add', key)"
       >
-        <img v-if="thumb(key)" class="build-thumb" :src="'layers/' + thumb(key)" alt="" draggable="false" />
+        <img v-if="thumb(key)" class="build-thumb" :src="thumb(key)" alt="" draggable="false" />
         <q-icon v-else name="drag_indicator" size="15px" />
         {{ pick(LAYERS[key].label, LAYERS[key].labelAr) }}
       </button>
@@ -30,9 +30,13 @@
           <q-icon name="restart_alt" size="22px" />
         </button>
       </Transition>
-      <!-- the first letter has had a bite taken out of it -->
+      <!-- the first letter has had a bite taken out of it. Arabic letters join,
+           so there the word stays whole and the bite comes out of its start -->
       <button class="build-eat" type="button" :disabled="eating" :aria-label="t('menu.eat')" @click="$emit('eat')">
-        <span class="eat-first" aria-hidden="true">{{ eatWord[0] }}</span><span aria-hidden="true">{{ eatWord.slice(1).join("") }}</span>
+        <span v-if="eatJoined" class="eat-first eat-whole" aria-hidden="true">{{ eatWord.join("").replace(/[ً-ْ]/g, "") }}</span>
+        <template v-else>
+          <span class="eat-first" aria-hidden="true">{{ eatWord[0] }}</span><span aria-hidden="true">{{ eatWord.slice(1).join("") }}</span>
+        </template>
       </button>
     </div>
   </div>
@@ -46,6 +50,8 @@ import { useLocale } from "src/i18n";
 
 const { t } = useI18n();
 const eatWord = computed(() => [...t("menu.eat")]);
+// a script whose letters join (Arabic) cannot be cut after its first letter
+const eatJoined = computed(() => /[؀-ۿ]/.test(t("menu.eat")));
 const { pick, other } = useLocale();
 
 const props = defineProps({
@@ -59,7 +65,7 @@ const props = defineProps({
 defineEmits(["remove", "add", "grab", "reset", "eat"]);
 
 /** The ingredient's own photograph, small, as the thing to pick up. */
-const thumb = (key) => resolveLayers([key])[0]?.photo?.file || "";
+const thumb = (key) => resolveLayers([key])[0]?.photo?.src || "";
 
 const shown = computed(() => resolveLayers(props.layers));
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="row q-mb-md">
+    <div class="dtool">
       <q-space />
-      <q-btn outline rounded no-caps color="primary" icon="add" label="Add branch" @click="open()" />
+      <q-btn unelevated rounded no-caps color="primary" icon="add" label="Add branch" @click="open()" />
     </div>
 
     <div class="dash-panel">
@@ -29,13 +29,13 @@
       </div>
     </div>
 
-    <q-dialog v-model="dialog" persistent>
-      <q-card class="dlg-card" style="width: 600px; max-width: 96vw">
+    <q-dialog v-model="dialog" persistent position="right" full-height :maximized="$q.screen.lt.md">
+      <q-card class="ded ded--side">
         <q-card-section class="dlg-head">
           {{ form.id ? "Edit branch" : "New branch" }}
         </q-card-section>
         <q-form @submit.prevent="save">
-          <q-card-section class="form-stack scroll" style="max-height: 68vh">
+          <q-card-section class="form-stack ded-scroll">
             <div class="form-row">
               <q-input v-model.trim="form.name" label="Branch name (English)" outlined dense
                 :rules="[(v) => !!v || 'Name is required']" lazy-rules hide-bottom-space />
@@ -77,7 +77,7 @@
           </q-card-section>
           <q-card-actions align="right" class="q-pa-md">
             <q-btn flat no-caps label="Cancel" v-close-popup />
-            <q-btn type="submit" outline rounded no-caps color="primary" label="Save" :loading="busy" />
+            <q-btn type="submit" unelevated rounded no-caps color="primary" icon="check" label="Save" :loading="busy" />
           </q-card-actions>
         </q-form>
       </q-card>

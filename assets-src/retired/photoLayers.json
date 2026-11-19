@@ -1,0 +1,140 @@
+{
+  "bun-top": {
+    "file": "bun-top.webp",
+    "w": 520,
+    "h": 262,
+    "rel": 1
+  },
+  "bun-bottom": {
+    "file": "bun-bottom.webp",
+    "w": 520,
+    "h": 228,
+    "rel": 0.95
+  },
+  "lettuce": {
+    "file": "lettuce.webp",
+    "w": 520,
+    "h": 288,
+    "rel": 1
+  },
+  "onion": {
+    "file": "onion.webp",
+    "w": 520,
+    "h": 221,
+    "rel": 0.99
+  },
+  "tomato": {
+    "file": "tomato.webp",
+    "w": 520,
+    "h": 248,
+    "rel": 0.92
+  },
+  "cheese": {
+    "file": "cheese.webp",
+    "w": 520,
+    "h": 273,
+    "rel": 1.04
+  },
+  "patty": {
+    "file": "patty.webp",
+    "w": 520,
+    "h": 280,
+    "rel": 0.98
+  },
+  "chicken": {
+    "file": "chicken.webp",
+    "w": 520,
+    "h": 273,
+    "rel": 1.01
+  },
+  "egg": {
+    "file": "egg.webp",
+    "w": 520,
+    "h": 207,
+    "rel": 1.03
+  },
+  "pickles": {
+    "file": "pickles.webp",
+    "w": 520,
+    "h": 121,
+    "rel": 1.02
+  },
+  "hotdog-bun-top": {
+    "file": "hotdog-bun-top.webp",
+    "w": 520,
+    "h": 193,
+    "rel": 1
+  },
+  "hotdog-bun-bottom": {
+    "file": "hotdog-bun-bottom.webp",
+    "w": 520,
+    "h": 184,
+    "rel": 1
+  },
+  "sausage": {
+    "file": "sausage.webp",
+    "w": 520,
+    "h": 143,
+    "rel": 1.01
+  },
+  "sauce-line": {
+    "file": "sauce-line.webp",
+    "w": 520,
+    "h": 94,
+    "rel": 0.99
+  },
+  "sauce": {
+    "file": "sauce.webp",
+    "w": 515,
+    "h": 250,
+    "rel": 0.85
+  },
+  "mayo": {
+    "file": "mayo.webp",
+    "w": 488,
+    "h": 240,
+    "rel": 0.81
+  },
+  "fries": {
+    "file": "fries.webp",
+    "w": 520,
+    "h": 346,
+    "rel": 1.02
+  },
+  "fries-box": {
+    "file": "fries-box.webp",
+    "w": 408,
+    "h": 408,
+    "rel": 0.67
+  },
+  "cheese-sauce": {
+    "file": "cheese-sauce.webp",
+    "w": 520,
+    "h": 202,
+    "rel": 0.98
+  },
+  "soft-drink": {
+    "file": "soft-drink.webp",
+    "w": 248,
+    "h": 529,
+    "rel": 0.41
+  },
+  "water-bottle": {
+    "file": "water-bottle.webp",
+    "w": 157,
+    "h": 455,
+    "rel": 0.25
+  },
+  "fries-boxed": {
+    "file": "fries-boxed.webp",
+    "w": 405,
+    "h": 532,
+    "rel": 0.7
+  },
+  "cheese-fries-boxed": {
+    "file": "cheese-fries-boxed.webp",
+    "w": 405,
+    "h": 532,
+    "rel": 0.7
+  }
+}
